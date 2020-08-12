@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.oyiersan.com","root":"/","scheme":"Mist","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
+  </script>
+
+  <meta name="description" content="每个程序员都希望自己有一台私人的主机，也或许国内的屁民想看看YouTube等放松下自己、或者查看国外其他技术文档时出现404、”Sorry, XXX is not available in your country yet.”等这样就很烦了！购买一台国外的VPS服务器就可以完美解决上面两个问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录vps的购买到ss的搭建">
+<meta property="og:url" content="https://blog.oyiersan.com/2019/03/15/%E8%AE%B0%E5%BD%95vps%E7%9A%84%E8%B4%AD%E4%B9%B0%E5%88%B0ss%E7%9A%84%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="Oyiersan">
+<meta property="og:description" content="每个程序员都希望自己有一台私人的主机，也或许国内的屁民想看看YouTube等放松下自己、或者查看国外其他技术文档时出现404、”Sorry, XXX is not available in your country yet.”等这样就很烦了！购买一台国外的VPS服务器就可以完美解决上面两个问题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/Alvin9999/PAC/master/ss/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Alvin9999/PAC/master/ss/22.png">
+<meta property="og:image" content="https://ae03.alicdn.com/kf/Hc1e0614c58cd466aa19388e61ee95cc5b.png">
+<meta property="og:image" content="https://ae04.alicdn.com/kf/Hde82d941a19e4c6b8470a22d4d1d55268.png">
+<meta property="article:published_time" content="2019-03-15T02:09:28.000Z">
+<meta property="article:modified_time" content="2020-08-12T08:09:34.717Z">
+<meta property="article:author" content="Oyiersan">
+<meta property="article:tag" content="shadowssocks">
+<meta property="article:tag" content="代理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Alvin9999/PAC/master/ss/8.png">
+
+
+<link rel="canonical" href="https://blog.oyiersan.com/2019/03/15/%E8%AE%B0%E5%BD%95vps%E7%9A%84%E8%B4%AD%E4%B9%B0%E5%88%B0ss%E7%9A%84%E6%90%AD%E5%BB%BA/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>记录vps的购买到ss的搭建 | Oyiersan</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Oyiersan</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#VPS%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">VPS服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%BB%BASSR%E4%BB%A3%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">自建SSR代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BBR%E5%8A%A0%E9%80%9F"><span class="nav-number">3.</span> <span class="nav-text">BBR加速</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Oyiersan"
+      src="https://wx4.sinaimg.cn/thumb150/b2527dc0ly8g11jnb1oxoj20ro0ro41r.jpg">
+  <p class="site-author-name" itemprop="name">Oyiersan</p>
+  <div class="site-description" itemprop="description">生活的理想，就是为了理想的生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Oyiersan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Oyiersan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiawu_zhang@163.com" title="E-Mail → mailto:jiawu_zhang@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/2991750592" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;2991750592" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.runoob.com/" title="http:&#x2F;&#x2F;www.runoob.com" rel="noopener" target="_blank">runoob</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.v2ex.com/" title="https:&#x2F;&#x2F;www.v2ex.com" rel="noopener" target="_blank">V2EX</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.acfun.cn/" title="http:&#x2F;&#x2F;www.acfun.cn" rel="noopener" target="_blank">AcFun</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.oyiersan.com/2019/03/15/%E8%AE%B0%E5%BD%95vps%E7%9A%84%E8%B4%AD%E4%B9%B0%E5%88%B0ss%E7%9A%84%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://wx4.sinaimg.cn/thumb150/b2527dc0ly8g11jnb1oxoj20ro0ro41r.jpg">
+      <meta itemprop="name" content="Oyiersan">
+      <meta itemprop="description" content="生活的理想，就是为了理想的生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Oyiersan">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记录vps的购买到ss的搭建
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-15 10:09:28" itemprop="dateCreated datePublished" datetime="2019-03-15T10:09:28+08:00">2019-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-12 16:09:34" itemprop="dateModified" datetime="2020-08-12T16:09:34+08:00">2020-08-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VPS/" itemprop="url" rel="index"><span itemprop="name">VPS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>每个程序员都希望自己有一台私人的主机，也或许国内的屁民想看看YouTube等放松下自己、或者查看国外其他技术文档时出现404、”Sorry, XXX is not available in your country yet.”等这样就很烦了！购买一台国外的VPS服务器就可以完美解决上面两个问题。</p>
+<a id="more"></a>
+
+<h3 id="VPS服务器"><a href="#VPS服务器" class="headerlink" title="VPS服务器"></a>VPS服务器</h3><p>VPS服务器需要选择国外的，首选国际知名的vultr，装上bbr速度不错、按小时计费，删除即停止计费，也不用担心IP被封，就是有点小贵现在最便宜的5刀一月。推荐他人使用会有10刀，好吧这是推介地址<a target="_blank" rel="noopener" href="https://www.vultr.com/?ref=7617425">vultr</a>。自己用的是电信的宽带，vps地址选择的是日本ping在150左右，试了下联通的ping在80左右，对于来玩游戏说是肯定不行的。网上的vps购买教程有很多，且支持支付宝，就不再累述了。  </p>
+<h3 id="自建SSR代理"><a href="#自建SSR代理" class="headerlink" title="自建SSR代理"></a>自建SSR代理</h3><ol>
+<li><p>shadowsocks服务端 <a target="_blank" rel="noopener" href="https://github.com/shadowsocks">GitHub地址</a><br> 网上安装脚本有很多，这是GitHub上star数最多的 <a target="_blank" rel="noopener" href="https://github.com/teddysun/shadowsocks_install">repo</a><br> 这是自己自己使用的脚本，是开机自启动的不需要重启</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget</span><br><span class="line">wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/ssr.sh &amp;&amp; chmod +x ssr.sh &amp;&amp; bash ssr.sh</span><br></pre></td></tr></table></figure>
+<p> <img src="https://raw.githubusercontent.com/Alvin9999/PAC/master/ss/8.png"><br> 后面就根据提示或者建议一步步来操作了。<br> 如果之后想修改账号信息，直接输入快捷管理命令：bash ssr.sh 进入管理界面<br> <img src="https://raw.githubusercontent.com/Alvin9999/PAC/master/ss/22.png"></p>
+</li>
+<li><p>shadowsocks客服端 <a target="_blank" rel="noopener" href="https://github.com/shadowsocks/shadowsocks-windows/releases">客服端下载地址</a>  </p>
+<p> <img src="https://ae03.alicdn.com/kf/Hc1e0614c58cd466aa19388e61ee95cc5b.png"></p>
+</li>
+</ol>
+<ol start="3">
+<li>服务器地址为我们购买vps地址、端口号为服务端设置的端口号、加密协议跟服务端一样。然后客户端<code>启动系统代理</code>，系统代理模式选择<code>PAC模式</code>（此模式可以判断是否是GWFList，来自动代理），就可以正常在内网和外网之间访问了。</li>
+</ol>
+<h3 id="BBR加速"><a href="#BBR加速" class="headerlink" title="BBR加速"></a>BBR加速</h3><p>如果到此时你访问YouTube的网站会发现还是很卡，一般只有3/4百k的速率。<br>Google 开源了其 TCP BBR 拥塞控制算法，并提交到了 Linux 内核，从 4.9 开始，Linux 内核已经用上了该算法。所以要使用此功能需要查看自己系统的内核是否在之上，内核的升级办法可以参考[2]。  </p>
+<ol>
+<li><p><code>uname -r</code> 查看内核  </p>
+</li>
+<li><p><code>wget --no-check-certificate https://github.com/teddysun/across/ raw/master/bbr.sh &amp;&amp; chmod +x bbr.sh &amp;&amp; ./bbr.sh  </code>  以root用户执行安装脚本、需要重启</p>
+</li>
+<li><p><code>sysctl net.ipv4.tcp_available_congestion_control</code> 查看是否有bbr字样，有表示安装成功  </p>
+</li>
+<li><p><code>lsmod | grep bbr</code> 返回值有 tcp_bbr 模块即说明 bbr 已启动<br> 现在来看看看视频的速率有3M/s了，真的是数量级上的提升。也可以选择使用 <a target="_blank" rel="noopener" href="https://github.com/shadowsocks/kcptun">kcptun</a> 来加速，相比较bbr有点麻烦。<br> <img src="https://ae04.alicdn.com/kf/Hde82d941a19e4c6b8470a22d4d1d55268.png"></p>
+</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>vultr知名厂商</li>
+<li>按小时计费，删除服务器及停止</li>
+<li>装上bbr或者kcptun在YouTube上看1080P视频没压力</li>
+<li>有点小贵</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://gitlab.com/Alvin9999/free/wikis/%E8%87%AA%E5%BB%BAss%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%95%99%E7%A8%8B">自建ss服务器教程</a>  </li>
+<li><a target="_blank" rel="noopener" href="https://teddysun.com/489.html">一键安装最新内核并开启 BBR 脚本</a>  </li>
+<li><a target="_blank" rel="noopener" href="https://github.com/shadowsocks">shadowsocks GitHub</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.vultr.com/?ref=7617425">vultr 购买地址</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Oyiersan
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.oyiersan.com/2019/03/15/%E8%AE%B0%E5%BD%95vps%E7%9A%84%E8%B4%AD%E4%B9%B0%E5%88%B0ss%E7%9A%84%E6%90%AD%E5%BB%BA/" title="记录vps的购买到ss的搭建">https://blog.oyiersan.com/2019/03/15/记录vps的购买到ss的搭建/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/shadowssocks/" rel="tag"># shadowssocks</a>
+              <a href="/tags/%E4%BB%A3%E7%90%86/" rel="tag"># 代理</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/03/06/%E8%AE%B0%E5%BD%95%E4%B8%AA%E4%BA%BAblog%E7%9A%84%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B/" rel="prev" title="记录个人blog的搭建过程">
+                  <i class="fa fa-chevron-left"></i> 记录个人blog的搭建过程
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Oyiersan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+      
+
+
+
+
+
+
+
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
