@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.oyiersan.com","root":"/","scheme":"Mist","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
+  </script>
+
+  <meta name="description" content="腾讯图灵JAVA课程视频笔记整理 一、JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java虚拟机">
+<meta property="og:url" content="https://blog.oyiersan.com/2020/08/17/java%E8%99%9A%E6%8B%9F%E6%9C%BA/index.html">
+<meta property="og:site_name" content="Oyiersan">
+<meta property="og:description" content="腾讯图灵JAVA课程视频笔记整理 一、JVM">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ae04.alicdn.com/kf/H8636b4e2135041bd84c311de2a8d9e41x.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/147906/15/5606/17194/5f3a0d52E144a1a5f/d3e3286d1ad3309e.png">
+<meta property="og:image" content="https://shop.io.mi-img.com/app/shop/img?id=shop_d0d1cb4ccc74c514f5d0117cf1e48fd8.png">
+<meta property="og:image" content="https://ae03.alicdn.com/kf/H73f3bebcbad745329c36f7b405d2f158R.png">
+<meta property="og:image" content="https://ae03.alicdn.com/kf/H866b85e38f994484adde504e552aa096T.png">
+<meta property="og:image" content="https://shop.io.mi-img.com/app/shop/img?id=shop_4845ee4f648ac0a5a1951c9cc6f29ffa.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/142071/18/5558/195935/5f39fc73Eaf9569ec/d6e55eacd081fb22.jpg">
+<meta property="article:published_time" content="2020-08-17T04:31:10.000Z">
+<meta property="article:modified_time" content="2020-08-17T04:54:03.271Z">
+<meta property="article:author" content="Oyiersan">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ae04.alicdn.com/kf/H8636b4e2135041bd84c311de2a8d9e41x.png">
+
+
+<link rel="canonical" href="https://blog.oyiersan.com/2020/08/17/java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>java虚拟机 | Oyiersan</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Oyiersan</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">一、类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">类加载过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%92%8C%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">类加载器和双亲委派机制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">二、JVM内存模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="nav-number">3.</span> <span class="nav-text">三、对象创建与内存分配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">对象的创建过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="nav-number">3.2.</span> <span class="nav-text">对象内存分配</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6"><span class="nav-number">4.</span> <span class="nav-text">四、垃圾收集器与对象内存回收</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E5%9B%9E%E6%94%B6%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%A4%E6%96%AD%E6%96%B9%E6%B3%95"><span class="nav-number">4.1.</span> <span class="nav-text">可回收对象的判断方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">4.2.</span> <span class="nav-text">垃圾收集器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81JVM%E8%B0%83%E4%BC%98"><span class="nav-number">5.</span> <span class="nav-text">五、JVM调优</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%A0%86%E4%BF%A1%E6%81%AF-jmap"><span class="nav-number">5.1.</span> <span class="nav-text">查看堆信息 jmap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%BA%BF%E7%A8%8B%E4%BF%A1%E6%81%AF-jstack"><span class="nav-number">5.2.</span> <span class="nav-text">查看线程信息 jstack</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bjvm%E5%8F%82%E6%95%B0-jinfo"><span class="nav-number">5.3.</span> <span class="nav-text">查看jvm参数 jinfo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%A0%86%E5%86%85%E5%AD%98%E5%90%84%E9%83%A8%E5%88%86%E7%9A%84%E4%BD%BF%E7%94%A8%E9%87%8F-jstat"><span class="nav-number">5.4.</span> <span class="nav-text">查看堆内存各部分的使用量 jstat</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Oyiersan"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Oyiersan</p>
+  <div class="site-description" itemprop="description">生活的理想，就是为了理想的生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Oyiersan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Oyiersan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiawu_zhang@163.com" title="E-Mail → mailto:jiawu_zhang@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/2991750592" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;2991750592" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.runoob.com/" title="http:&#x2F;&#x2F;www.runoob.com" rel="noopener" target="_blank">runoob</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.v2ex.com/" title="https:&#x2F;&#x2F;www.v2ex.com" rel="noopener" target="_blank">V2EX</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.acfun.cn/" title="http:&#x2F;&#x2F;www.acfun.cn" rel="noopener" target="_blank">AcFun</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.oyiersan.com/2020/08/17/java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Oyiersan">
+      <meta itemprop="description" content="生活的理想，就是为了理想的生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Oyiersan">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java虚拟机
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-17 12:31:10 / 修改时间：12:54:03" itemprop="dateCreated datePublished" datetime="2020-08-17T12:31:10+08:00">2020-08-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>腾讯图灵JAVA课程视频笔记整理 一、JVM</p>
+<a id="more"></a>
+
+<h3 id="一、类加载机制"><a href="#一、类加载机制" class="headerlink" title="一、类加载机制"></a>一、类加载机制</h3><h4 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h4><p><strong>加载 &gt;&gt; 验证 &gt;&gt; 准备 &gt;&gt; 解析 &gt;&gt; 初始化 &gt;&gt;</strong> 使用 &gt;&gt; 卸载</p>
+<ul>
+<li><p>加载：在硬盘上查找并通过IO读入字节码文件，使用到类时才会加载，例如调用类的main()方法，new对象等等，在加载阶段会在内存中生成一个<strong>代表这个类的java.lang.Class对象</strong>，作为方法区这个类的各种数据的访问入口</p>
+</li>
+<li><p>验证：校验字节码文件的正确性</p>
+</li>
+<li><p>准备：给类的静态变量分配内存，并赋予默认值</p>
+</li>
+<li><p>解析：将<strong>符号引用</strong>替换为直接引用，该阶段会把一些静态方法(符号引用，比如main()方法)替换为指向数据所存内存的指针或句柄等(直接引用)，这是所谓的<strong>静态链接</strong>过程(类加载期间完成)，<strong>动态链接</strong>是在程序运行期间完成的将符号引用替换为直接引用</p>
+</li>
+<li><p>初始化：对类的静态变量初始化为指定的值，执行静态代码块</p>
+</li>
+<li><p>卸载：</p>
+<p><strong>如何判断一个类是无用的类</strong></p>
+<p>方法区主要回收的是无用的类，那么如何判断一个类是无用的类呢？</p>
+<p>类需要同时满足下面3个条件才能算是 <strong>“无用的类”</strong> ：</p>
+<ul>
+<li>该类所有的对象实例都已经被回收，也就是 Java 堆中不存在该类的任何实例。</li>
+<li>加载该类的 ClassLoader 已经被回收。</li>
+<li>该类对应的 java.lang.Class 对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法。</li>
+</ul>
+</li>
+</ul>
+<img src="https://ae04.alicdn.com/kf/H8636b4e2135041bd84c311de2a8d9e41x.png" alt="类加载过程.png" style="zoom: 80%;" />
+
+<h4 id="类加载器和双亲委派机制"><a href="#类加载器和双亲委派机制" class="headerlink" title="类加载器和双亲委派机制"></a>类加载器和双亲委派机制</h4><p><strong>类加载器</strong></p>
+<ul>
+<li><p>引导类（启动）加载器（Bootsrap ClassLoader） ：负责加载支撑JVM运行的位于JRE的lib目录下的核心类库，比如rt.jar、charsets.jar等</p>
+</li>
+<li><p>扩展类加载器（Extension ClassLoader）：负责加载支撑JVM运行的位于JRE的lib目录下的ext扩展目录中的JAR类包</p>
+</li>
+<li><p>应用程序类加载器（Application ClassLoader）：负责加载ClassPath路径下的类包，主要就是加载你自己写的那些类</p>
+</li>
+<li><p>自定义加载器：负责加载用户自定义路径下的类包</p>
+<p><img src="https://ddcdn.jd.com/ddimg/jfs/t1/147906/15/5606/17194/5f3a0d52E144a1a5f/d3e3286d1ad3309e.png" alt="双亲委派.png"></p>
+</li>
+</ul>
+<p><strong>自定义加载器</strong></p>
+<p>自定义类加载器只需要继承 java.lang.ClassLoader 类</p>
+<p>重写 <strong>findClass</strong> 空方法，打破双亲委派需重写 <strong>loadClass</strong> 实现自己的加载逻辑，不委派给双亲加载</p>
+<p><strong>tomcat打破双亲委派</strong></p>
+<p><strong>jsp，freemarker热加载，每次修改不需要重启服务</strong></p>
+<h3 id="二、JVM内存模型"><a href="#二、JVM内存模型" class="headerlink" title="二、JVM内存模型"></a>二、JVM内存模型</h3><p><img src="https://shop.io.mi-img.com/app/shop/img?id=shop_d0d1cb4ccc74c514f5d0117cf1e48fd8.png" alt="JVM内存模型.png"></p>
+<h3 id="三、对象创建与内存分配"><a href="#三、对象创建与内存分配" class="headerlink" title="三、对象创建与内存分配"></a>三、对象创建与内存分配</h3><h4 id="对象的创建过程"><a href="#对象的创建过程" class="headerlink" title="对象的创建过程"></a>对象的创建过程</h4><ol>
+<li><p><strong>类加载检查</strong> ： 虚拟机遇到一条new指令时，首先将去检查这个指令的参数是否能在常量池中定位到一个类的符号引用，并且检查这个符号引用代表的类是否已被加载、解析和初始化过。如果没有，那必须先执行相应的类加载过程</p>
+</li>
+<li><p><strong>分配内存</strong>：对象所需内存的大小在类 加载完成后便可完全确定，为对象分配空间的任务等同于把 一块确定大小的内存从Java堆中划分出来</p>
+</li>
+<li><p><strong>初始化</strong>：对所有非静态成员变量进行默认初始化</p>
+</li>
+<li><p><strong>设置对象头</strong>：虚拟机要对对象进行必要的设置，例如这个对象是哪个类的实例、如何才能找到类的元数据信息、对象的哈希码、对象的GC分代年龄等信息。这些信息存放在对象的对象头Object Header之中。</p>
+<p><strong>32位对象头</strong></p>
+<p><img src="https://ae03.alicdn.com/kf/H73f3bebcbad745329c36f7b405d2f158R.png" alt="clipboard.png"></p>
+<p><strong>64位对象头</strong></p>
+<img src="https://ae03.alicdn.com/kf/H866b85e38f994484adde504e552aa096T.png" alt="clipboard.png" style="zoom: 80%;" />
+
+<p><strong>指针压缩</strong>：为了减少64位平台下内存的消耗</p>
+</li>
+<li><p><strong>执行<init>方法</strong>：构造函数执行</p>
+</li>
+</ol>
+<h4 id="对象内存分配"><a href="#对象内存分配" class="headerlink" title="对象内存分配"></a>对象内存分配</h4><p>对象内存分配流程</p>
+<p><img src="https://shop.io.mi-img.com/app/shop/img?id=shop_4845ee4f648ac0a5a1951c9cc6f29ffa.png" alt="对象内存分配流程.png" style="zoom:80%;" />、</p>
+<p><strong>逃逸分析</strong>：为了减少临时对象在堆内分配的数量，JVM通过逃逸分析对象是否会被外部访问，如没有则直接到<strong>栈上分配</strong>内存，内存空间就可以随栈帧出栈而销毁，就减轻了垃圾回收的压力</p>
+<p><strong>Minor GC/Young GC</strong>：指发生新生代的的垃圾收集动作，Minor GC非常频繁，回收速度一般也比较快。eden区满了后会触发minor gc，剩余存活的对象会被挪到为空的那块survivor区</p>
+<p><strong>Major GC/Full GC</strong>：一般会回收老年代 ，年轻代，方法区的垃圾，Major GC的速度一般会比Minor GC的慢10倍以上。移动到老年代对象可用空间不可用时，那么会触发full gc，full gc完之后如果还是没有空间放minor gc之后的存活对象，则也会发生“OOM”</p>
+<h3 id="四、垃圾收集器与对象内存回收"><a href="#四、垃圾收集器与对象内存回收" class="headerlink" title="四、垃圾收集器与对象内存回收"></a>四、垃圾收集器与对象内存回收</h3><p>堆中对象回收前需判断对象是否是垃圾对象，即没有被任何使用的对象。</p>
+<h4 id="可回收对象的判断方法"><a href="#可回收对象的判断方法" class="headerlink" title="可回收对象的判断方法"></a>可回收对象的判断方法</h4><ul>
+<li><p><del><strong>引用计数法</strong></del>：给对象中添加一个引用计数器，每当有一个地方引用它，计数器就加1；当引用失效，计数器就减1；任何时候计数器为0的对象就是不可能再被使用的。<strong>这个方法实现简单，效率高，但是目前主流的虚拟机中并没有选择这个算法来管理内存，其最主要的原因是它很难解决对象之间相互循环引用的问题</strong></p>
+</li>
+<li><p><strong>可达性分析算法</strong>：将<strong>“GC Roots”</strong> 对象作为起点，从这些节点开始向下搜索引用的对象，找到的对象都标记为<strong>非垃圾对象</strong>，其余未标记的对象都是垃圾对象。真正宣告一个对象死亡，至少需要标记两次</p>
+<p><strong>GC Roots</strong>根节点：线程栈的本地变量、静态变量、本地方法栈的变量等等</p>
+</li>
+</ul>
+<p>​        <strong>常见引用类型</strong>：<strong>强引用</strong>、<strong>软引用</strong>、弱引用、虚引用</p>
+<p>​        <strong>finalize()方法</strong>：如果这个对象覆盖了finalize方法，对象被回收前会执行此方法</p>
+<h4 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h4><p>垃圾收集算法：</p>
+<ul>
+<li>分代收集理论</li>
+<li>新生代：复制算法</li>
+<li>老年代：标记整理算法、标记清除算法</li>
+</ul>
+<p>垃圾收集器：</p>
+<ul>
+<li><p><strong>Serial(串行)收集器</strong>(<code>-XX:+UseSerialGC  -XX:+UseSerialOldGC</code>)</p>
+<p>新生代采用复制算法，老年代采用标记-整理算法。单线程收集器，STW时间长，用户体验不好</p>
+</li>
+<li><p><strong>Parallel Scavenge收集器</strong>(<code>-XX:+UseParallelGC(年轻代),-XX:+UseParallelOldGC(老年代)</code>)</p>
+<p>新生代采用复制算法，老年代采用标记-整理算法。Serial收集器的多线程版本，JDK8默认的新生代和老年代收集器</p>
+</li>
+<li><p><strong>ParNew收集器</strong>(<code>-XX:+UseParNewGC</code>)</p>
+<p>新生代采用复制算法，老年代采用标记-整理算法。跟Parallel收集器很类似，区别主要在于它可以和CMS收集器配合使用</p>
+</li>
+<li><p><strong>CMS收集器</strong>(<code>-XX:+UseConcMarkSweepGC(old)</code>)</p>
+<p>与ParNew收集器配合使用，新生代使用ParNew，老年代使用CMS，并发收集、低停顿。缺点，吃CPU资源；清除收集产生大量内存碎片，需配合 <code>-XX:+UseCMSCompactAtFullCollection</code>使用；无法处理浮动垃圾(在并发标记和并发清理阶段又产生垃圾，这种浮动垃圾只能等到下一次gc再清理了）</p>
+<p>G1收集器(-XX:+UseG1GC)</p>
+<p>ZGC收集器(-XX:+UseZGC)</p>
+<p><strong>如何选择垃圾收集器</strong></p>
+<ol>
+<li><p>优先调整堆的大小让服务器自己来选择</p>
+</li>
+<li><p>如果内存小于100M，使用串行收集器</p>
+</li>
+<li><p>如果是单核，并且没有停顿时间的要求，串行或JVM自己选择</p>
+</li>
+<li><p>如果允许停顿时间超过1秒，选择并行或者JVM自己选</p>
+</li>
+<li><p>如果响应时间最重要，并且不能超过1秒，使用并发收集器</p>
+</li>
+<li><p><strong>堆内存4G以下可以用parallel，4-8G可以用ParNew+CMS，8G以上可以用G1，几百G以上用ZGC</strong></p>
+<p>JDK 1.8默认使用 Parallel(年轻代和老年代都是)</p>
+<p>JDK 1.9默认使用 G1    </p>
+</li>
+</ol>
+</li>
+</ul>
+<pre><code> **三色标记**</code></pre>
+<h3 id="五、JVM调优"><a href="#五、JVM调优" class="headerlink" title="五、JVM调优"></a>五、JVM调优</h3><p>查看应用程序的线程id：<code>jps</code></p>
+<h4 id="查看堆信息-jmap"><a href="#查看堆信息-jmap" class="headerlink" title="查看堆信息 jmap"></a>查看堆信息 <strong>jmap</strong></h4><ul>
+<li>查看堆内存实例数：<ul>
+<li>查看历史生成的实例： <code>jmap -histo &lt;pid&gt;  &gt; ./log.txt</code></li>
+<li>查看当前存活的实例：<code>jmap -histo:live  &lt;pid&gt;   &gt; ./log.txt</code></li>
+</ul>
+</li>
+<li>导出堆内存信息文件，载入分析工具进行分析：<code>jmap -dump:format=b,file=eureka.hprof &lt;pid&gt;</code><ul>
+<li>配置内存溢出自动导出：<code>-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./</code>  </li>
+</ul>
+</li>
+</ul>
+<h4 id="查看线程信息-jstack"><a href="#查看线程信息-jstack" class="headerlink" title="查看线程信息 jstack"></a>查看线程信息 <strong>jstack</strong></h4><ul>
+<li>查看死锁或高CPU：<code>jstack  -F &lt;pid&gt;</code></li>
+</ul>
+<h4 id="查看jvm参数-jinfo"><a href="#查看jvm参数-jinfo" class="headerlink" title="查看jvm参数 jinfo"></a>查看jvm参数 <code>jinfo</code></h4><ul>
+<li><code>jinfo -flags &lt;pid&gt;</code></li>
+</ul>
+<h4 id="查看堆内存各部分的使用量-jstat"><a href="#查看堆内存各部分的使用量-jstat" class="headerlink" title="查看堆内存各部分的使用量 jstat"></a>查看堆内存各部分的使用量 <strong>jstat</strong></h4><ul>
+<li><p><code>jstat -gc &lt;pid&gt; [打印间隔] [打印次数]</code></p>
+<p>通过查看GC发生的次数，时间间隔来决定是否优化</p>
+<p><img src="https://ddcdn.jd.com/ddimg/jfs/t1/142071/18/5558/195935/5f39fc73Eaf9569ec/d6e55eacd081fb22.jpg" alt="SharedScreenshot.jpg"></p>
+<p>S0C：第一个幸存区大小；S1C：第二个幸存区的大小；EC：伊甸园区的大小；OGCMN：老年代最小容量</p>
+<p>OGCMX：老年代最大容量；OGC：当前老年代大小；OC:当前老年代大小；MCMN:最小元数据容量</p>
+<p>MCMX：最大元数据容量；MC：当前元数据空间大小；CCSMN：最小压缩类空间大小；CCSMX：最大压缩类空间大小</p>
+<p>CCSC：当前压缩类空间大小‘YGC：年轻代gc次数’FGC：老年代GC次数</p>
+</li>
+</ul>
+<p>调优工具：<strong>阿里巴巴Arthas</strong> <a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/">https://alibaba.github.io/arthas/</a></p>
+<p><strong>字符串常量池</strong></p>
+<p>intern：intern方法是一个 native 的方法，当调用 intern方法时，如果池已经包含一个等于此String对象的字符串（用equals(oject)方法确定），则返回池中的字符串。否则，将intern返回的引用指向当前字符串 </p>
+<p>​     </p>
+<p>​    </p>
+<p>​    </p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Oyiersan
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.oyiersan.com/2020/08/17/java%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="java虚拟机">https://blog.oyiersan.com/2020/08/17/java虚拟机/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JVM/" rel="tag"># JVM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/03/15/%E8%AE%B0%E5%BD%95vps%E7%9A%84%E8%B4%AD%E4%B9%B0%E5%88%B0ss%E7%9A%84%E6%90%AD%E5%BB%BA/" rel="prev" title="记录vps的购买到ss的搭建">
+                  <i class="fa fa-chevron-left"></i> 记录vps的购买到ss的搭建
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Oyiersan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+      
+
+
+
+
+
+
+
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
