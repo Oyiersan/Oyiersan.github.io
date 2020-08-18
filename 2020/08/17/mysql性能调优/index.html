@@ -24,8 +24,8 @@
 
   <meta name="description" content="腾讯图灵JAVA视频笔记整理 二、mysql性能优化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql数据调优">
-<meta property="og:url" content="https://blog.oyiersan.com/2020/08/17/mysql%E6%95%B0%E6%8D%AE%E8%B0%83%E4%BC%98/index.html">
+<meta property="og:title" content="mysql性能调优">
+<meta property="og:url" content="https://blog.oyiersan.com/2020/08/17/mysql%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/index.html">
 <meta property="og:site_name" content="Oyiersan">
 <meta property="og:description" content="腾讯图灵JAVA视频笔记整理 二、mysql性能优化">
 <meta property="og:locale" content="zh_CN">
@@ -35,15 +35,18 @@
 <meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/148084/35/5606/35941/5f3a359cE1f63c8c2/42957e802b35d559.png">
 <meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/138724/24/5717/80509/5f3a385dEb456c7a4/5af2f1b8a233aacd.jpg">
 <meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/132160/35/7196/57173/5f3a3909E725d970d/15a3174c1c450635.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/144356/5/5652/56022/5f3b4b6fE70a381b2/bd76572977357adc.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/122922/19/10034/92882/5f3b4b2fE6d445ade/77404d769cc38d1a.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/115270/17/15204/94444/5f3bd334E92a0fa23/f1a519e1570a10b2.png">
 <meta property="article:published_time" content="2020-08-17T07:20:18.000Z">
-<meta property="article:modified_time" content="2020-08-18T02:45:09.314Z">
+<meta property="article:modified_time" content="2020-08-18T13:15:50.318Z">
 <meta property="article:author" content="Oyiersan">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/131206/16/7192/26297/5f3a32a2Ee27ad913/b31fd8713e9571cf.png">
 
 
-<link rel="canonical" href="https://blog.oyiersan.com/2020/08/17/mysql%E6%95%B0%E6%8D%AE%E8%B0%83%E4%BC%98/">
+<link rel="canonical" href="https://blog.oyiersan.com/2020/08/17/mysql%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">
 
 
 <script class="page-configurations">
@@ -56,7 +59,7 @@
   };
 </script>
 
-  <title>mysql数据调优 | Oyiersan</title>
+  <title>mysql性能调优 | Oyiersan</title>
   
 
 
@@ -188,7 +191,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%B4%A2%E5%BC%95"><span class="nav-number">1.</span> <span class="nav-text">一、索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">索引数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#B-Tree%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.1.</span> <span class="nav-text">B-Tree结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#B-Tree%E7%BB%93%E6%9E%84-1"><span class="nav-number">1.1.2.</span> <span class="nav-text">B+Tree结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hash%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.3.</span> <span class="nav-text">Hash结构</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="nav-number">1.2.</span> <span class="nav-text">存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#MyISAM%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%B4%A2%E5%BC%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">MyISAM存储引擎索引实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%B4%A2%E5%BC%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">InnoDB存储引擎索引实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E6%9C%80%E5%B7%A6%E5%89%8D%E7%BC%80%E5%8E%9F%E5%88%99"><span class="nav-number">1.3.</span> <span class="nav-text">联合索引最左前缀原则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Explain%E5%B7%A5%E5%85%B7"><span class="nav-number">2.</span> <span class="nav-text">二、Explain工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#explain%E4%B8%AD%E7%9A%84%E5%88%97"><span class="nav-number">2.1.</span> <span class="nav-text">explain中的列</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#id%E5%88%97"><span class="nav-number">2.1.1.</span> <span class="nav-text">id列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#select-type%E5%88%97"><span class="nav-number">2.1.2.</span> <span class="nav-text">select_type列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#table%E5%88%97"><span class="nav-number">2.1.3.</span> <span class="nav-text">table列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#type%E5%88%97"><span class="nav-number">2.1.4.</span> <span class="nav-text">type列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#possible-keys%E5%88%97"><span class="nav-number">2.1.5.</span> <span class="nav-text">possible_keys列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#key%E5%88%97"><span class="nav-number">2.1.6.</span> <span class="nav-text">key列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#key-len%E5%88%97"><span class="nav-number">2.1.7.</span> <span class="nav-text">key_len列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ref%E5%88%97"><span class="nav-number">2.1.8.</span> <span class="nav-text">ref列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rows%E5%88%97"><span class="nav-number">2.1.9.</span> <span class="nav-text">rows列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Extra%E5%88%97"><span class="nav-number">2.1.10.</span> <span class="nav-text">Extra列</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">优化点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">三、索引优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Order-by%E4%B8%8EGroup-by%E4%BC%98%E5%8C%96"><span class="nav-number">3.1.</span> <span class="nav-text">Order by与Group by优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">3.2.</span> <span class="nav-text">索引设计原则</span></a></li></ol></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%B4%A2%E5%BC%95"><span class="nav-number">1.</span> <span class="nav-text">一、索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">索引数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#B-Tree%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.1.</span> <span class="nav-text">B-Tree结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#B-Tree%E7%BB%93%E6%9E%84-1"><span class="nav-number">1.1.2.</span> <span class="nav-text">B+Tree结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hash%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.3.</span> <span class="nav-text">Hash结构</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="nav-number">1.2.</span> <span class="nav-text">存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#MyISAM%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%B4%A2%E5%BC%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">MyISAM存储引擎索引实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%B4%A2%E5%BC%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">InnoDB存储引擎索引实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E6%9C%80%E5%B7%A6%E5%89%8D%E7%BC%80%E5%8E%9F%E5%88%99"><span class="nav-number">1.3.</span> <span class="nav-text">联合索引最左前缀原则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Explain%E5%B7%A5%E5%85%B7"><span class="nav-number">2.</span> <span class="nav-text">二、Explain工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#explain%E4%B8%AD%E7%9A%84%E5%88%97"><span class="nav-number">2.1.</span> <span class="nav-text">explain中的列</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#id%E5%88%97"><span class="nav-number">2.1.1.</span> <span class="nav-text">id列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#select-type%E5%88%97"><span class="nav-number">2.1.2.</span> <span class="nav-text">select_type列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#table%E5%88%97"><span class="nav-number">2.1.3.</span> <span class="nav-text">table列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#type%E5%88%97"><span class="nav-number">2.1.4.</span> <span class="nav-text">type列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#possible-keys%E5%88%97"><span class="nav-number">2.1.5.</span> <span class="nav-text">possible_keys列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#key%E5%88%97"><span class="nav-number">2.1.6.</span> <span class="nav-text">key列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#key-len%E5%88%97"><span class="nav-number">2.1.7.</span> <span class="nav-text">key_len列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ref%E5%88%97"><span class="nav-number">2.1.8.</span> <span class="nav-text">ref列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rows%E5%88%97"><span class="nav-number">2.1.9.</span> <span class="nav-text">rows列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Extra%E5%88%97"><span class="nav-number">2.1.10.</span> <span class="nav-text">Extra列</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">优化点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">三、索引优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">3.1.</span> <span class="nav-text">索引设计原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Order-by%E4%B8%8EGroup-by%E4%BC%98%E5%8C%96"><span class="nav-number">3.2.</span> <span class="nav-text">Order by与Group by优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96"><span class="nav-number">3.3.</span> <span class="nav-text">分页查询优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#join%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96"><span class="nav-number">3.4.</span> <span class="nav-text">join关联查询优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#in%E5%92%8Cexsits%E4%BC%98%E5%8C%96"><span class="nav-number">3.5.</span> <span class="nav-text">in和exsits优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81mysql%E4%BA%8B%E5%8A%A1"><span class="nav-number">4.</span> <span class="nav-text">四、mysql事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E5%8F%8A%E5%85%B6ACID%E5%B1%9E%E6%80%A7"><span class="nav-number">4.1.</span> <span class="nav-text">事务及其ACID属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E4%BA%8B%E5%8A%A1%E5%A4%84%E7%90%86%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.2.</span> <span class="nav-text">并发事务处理带来的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">4.3.</span> <span class="nav-text">事务隔离级别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E8%AF%A6%E8%A7%A3"><span class="nav-number">4.4.</span> <span class="nav-text">锁详解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-number">4.5.</span> <span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="nav-number">4.6.</span> <span class="nav-text">锁优化建议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81MVCC%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="nav-number">5.</span> <span class="nav-text">五、MVCC多版本并发控制</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -283,7 +286,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.oyiersan.com/2020/08/17/mysql%E6%95%B0%E6%8D%AE%E8%B0%83%E4%BC%98/">
+    <link itemprop="mainEntityOfPage" href="https://blog.oyiersan.com/2020/08/17/mysql%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -299,7 +302,7 @@
     
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          mysql数据调优
+          mysql性能调优
         </h1>
 
         <div class="post-meta">
@@ -316,7 +319,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-18 10:45:09" itemprop="dateModified" datetime="2020-08-18T10:45:09+08:00">2020-08-18</time>
+                <time title="修改时间：2020-08-18 21:15:50" itemprop="dateModified" datetime="2020-08-18T21:15:50+08:00">2020-08-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -542,7 +545,23 @@
 <li>少用or或in，用它查询时，mysql不一定使用索引，mysql内部优化器会根据检索比例、表大小等多个因素整体评<br>估是否使用索引，详见范围查询优化  </li>
 <li>范围查询优化  </li>
 </ul>
-<h3 id="三、索引优化"><a href="#三、索引优化" class="headerlink" title="三、索引优化"></a>三、索引优化</h3><h4 id="Order-by与Group-by优化"><a href="#Order-by与Group-by优化" class="headerlink" title="Order by与Group by优化"></a>Order by与Group by优化</h4><ol>
+<h3 id="三、索引优化"><a href="#三、索引优化" class="headerlink" title="三、索引优化"></a>三、索引优化</h3><h4 id="索引设计原则"><a href="#索引设计原则" class="headerlink" title="索引设计原则"></a>索引设计原则</h4><ol>
+<li><p><strong>代码先行，索引后上</strong></p>
+</li>
+<li><p><strong>联合索引尽量覆盖条件</strong></p>
+</li>
+<li><p><strong>不要在小基数字段上建立索引</strong></p>
+</li>
+<li><p><strong>长字符串我们可以采用前缀索引</strong></p>
+</li>
+<li><p><strong>where与order by冲突时优先where</strong></p>
+</li>
+<li><p><strong>基于慢sql查询做优化</strong> </p>
+</li>
+</ol>
+<p>开启忙查询日志，造出相应的SQL记录，进行优化</p>
+<p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40884473/article/details/89455740">https://blog.csdn.net/qq_40884473/article/details/89455740</a></p>
+<h4 id="Order-by与Group-by优化"><a href="#Order-by与Group-by优化" class="headerlink" title="Order by与Group by优化"></a>Order by与Group by优化</h4><ol>
 <li>MySQL支持两种方式的排序filesort和index，Using index是指MySQL扫描索引本身完成排序。index效率高，filesort效率低</li>
 <li>order by满足两种情况会使用Using index<ol>
 <li>order by语句使用索引最左前列</li>
@@ -566,22 +585,189 @@
 </ul>
 </li>
 </ul>
-<h4 id="索引设计原则"><a href="#索引设计原则" class="headerlink" title="索引设计原则"></a>索引设计原则</h4><ol>
-<li><p><strong>代码先行，索引后上</strong></p>
+<h4 id="分页查询优化"><a href="#分页查询优化" class="headerlink" title="分页查询优化"></a><strong>分页查询优化</strong></h4><p><code>mysql&gt; select * from employees limit 10000,10;</code></p>
+<p>从表 employees 中取出从 10001 行开始的 10 行记录。看似只查询了 10 条记录，实际这条 SQL 是先读取 10010 条记录，然后抛弃前 10000 条记录，然后读到后面 10 条想要的数据。因此要查询一张大表比较靠后的数据，执行效率是非常低的</p>
+<p><strong>常见的分页场景优化技巧</strong></p>
+<p><strong>根据自增且连续的主键排序的分页查询</strong></p>
+<p><code>mysql&gt; EXPLAIN select * from employees where id &gt; 90000 limit 5;</code></p>
+<p>如果主键不连续，不能使用上面描述的优化方法。</p>
+<p>另外如果原 SQL 是 order by 非主键的字段，按照上面说的方法改写会导致两条 SQL 的结果不一致。所以这种改写得满足以下两个条件：</p>
+<ul>
+<li>主键自增且连续</li>
+<li>结果是按照主键排序的</li>
+</ul>
+<p><strong>根据非主键字段排序的分页查询</strong></p>
+<p><code>select * from employees ORDER BY name limit 90000,5;</code></p>
+<img src="https://ddcdn.jd.com/ddimg/jfs/t1/144356/5/5652/56022/5f3b4b6fE70a381b2/bd76572977357adc.png" alt="clipboard.png" style="zoom:80%;" />
+
+<p>可以<strong>让排序时返回的字段尽可能少</strong>，所以可以让排序和分页操作先查出主键，然后根据主键查到对应的记录，SQL改写如下</p>
+<p><code>select * from employees e inner join (select id from employees order by name limit 90000,5) ed on e.id = ed.id;</code></p>
+<img src="https://ddcdn.jd.com/ddimg/jfs/t1/122922/19/10034/92882/5f3b4b2fE6d445ade/77404d769cc38d1a.png" alt="clipboard.png" style="zoom:80%;" />
+
+<p>原 SQL 使用的是 filesort 排序，而优化后的 SQL 使用的是索引排序。</p>
+<h4 id="join关联查询优化"><a href="#join关联查询优化" class="headerlink" title="join关联查询优化"></a><strong>join关联查询优化</strong></h4><p><strong>mysql的表关联常见有两种算法</strong></p>
+<ul>
+<li><p>Nested-Loop Join 算法</p>
 </li>
-<li><p><strong>联合索引尽量覆盖条件</strong></p>
+<li><p>Block Nested-Loop Join 算法</p>
 </li>
-<li><p><strong>不要在小基数字段上建立索引</strong></p>
+</ul>
+<ol>
+<li><p><strong>嵌套循环连接</strong> <strong>Nested-Loop Join(NLJ) 算法</strong></p>
+<p>一次一行循环地从第一张表（称为<strong>驱动表</strong>）中读取行，在这行数据中取到关联字段，根据关联字段在另一张表（<strong>被驱动表</strong>）里取出满足条件的行，然后取出两张表的结果合集。</p>
 </li>
-<li><p><strong>长字符串我们可以采用前缀索引</strong></p>
+<li><p><strong>基于块的嵌套循环连接</strong> <strong>Block Nested-Loop Join(BNL)算法</strong></p>
+<p>把<strong>驱动表</strong>的数据读入到 join_buffer 中，然后扫描<strong>被驱动表</strong>，把<strong>被驱动表</strong>每一行取出来跟 join_buffer 中的数据做对比。</p>
 </li>
-<li><p><strong>where与order by冲突时优先where</strong></p>
-</li>
-<li><p><strong>基于慢sql查询做优化</strong>  </p>
-<p>开启忙查询日志，造出相应的SQL记录，进行优化 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40884473/article/details/89455740">https://blog.csdn.net/qq_40884473/article/details/89455740</a></p>
-</li>
-<li></li>
 </ol>
+<p><strong>被驱动表的关联字段没索引选择使用 BNL 算法而不使用 NLJ</strong></p>
+<p>如启动表有查询出来有100条记录，被驱动表有10000条记录，使用 NLJ，那么扫描行数为 100 * 10000 = 100万次，这个是<strong>磁盘扫描</strong>。<br>很显然，用BNL磁盘扫描次数少很多，相比于磁盘扫描，BNL的内存计算会快得多。<br>因此MySQL对于被驱动表的关联字段没索引的关联查询，一般都会使用 BNL 算法。如果有索引一般选择 NLJ 算法，有索引的情况下 NLJ 算法比 BNL算法性能更高</p>
+<p><strong>对于关联sql的优化</strong></p>
+<ul>
+<li><strong>关联字段加索引</strong>，让mysql做join操作时尽量选择NLJ算法</li>
+<li><strong>小表驱动大表</strong><ul>
+<li>在决定哪个表做驱动表的时候，应该是两个表按照各自的条件过滤，<strong>过滤完成之后</strong>，计算参与 join 的各个字段的总数据量，<strong>数据量小的那个表，就是“小表”</strong>，应该作为驱动表</li>
+</ul>
+</li>
+</ul>
+<h4 id="in和exsits优化"><a href="#in和exsits优化" class="headerlink" title="in和exsits优化"></a><strong>in和exsits优化</strong></h4><p>原则：<strong>小表驱动大表</strong>，即小的数据集驱动大的数据集</p>
+<p><strong>in：</strong>当B表的数据集小于A表的数据集时，in优于exists </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> A <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span> (<span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> B)  </span><br><span class="line"><span class="comment">#等价于： 　for(select id from B)&#123;      select * from A where A.id = B.id    &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>exists：</strong>当A表的数据集小于B表的数据集时，exists优于in</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> A <span class="keyword">where</span> <span class="keyword">exists</span> (<span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> B <span class="keyword">where</span> B.id = A.id) </span><br><span class="line"><span class="comment">#等价于:    for(select * from A)&#123;      select * from B where B.id = A.id    &#125;     </span></span><br><span class="line"><span class="comment">#A表与B表的ID字段应建立索引</span></span><br></pre></td></tr></table></figure>
+
+<p>EXISTS子查询往往也可以用JOIN来代替，何种最优需要具体问题具体分析</p>
+<h3 id="四、mysql事务"><a href="#四、mysql事务" class="headerlink" title="四、mysql事务"></a>四、mysql事务</h3><h4 id="事务及其ACID属性"><a href="#事务及其ACID属性" class="headerlink" title="事务及其ACID属性"></a>事务及其ACID属性</h4><p>事务是由一组SQL语句组成的逻辑处理单元,事务具有以下4个属性,通常简称为事务的ACID属性。</p>
+<ul>
+<li>原子性(Atomicity) ：事务是一个原子操作单元,其对数据的修改，要么全都执行，要么全都不执行 </li>
+<li>一致性(Consistent) ：在事务开始和完成时，数据都必须保持一致状态。这意味着所有相关的数据规则都必须应用于事务的修改,以保持数据的完整性  </li>
+<li>隔离性(Isolation) ：数据库系统提供一定的隔离机制，保证事务在不受外部并发操作影响的“独立”环境执行。这意味着事务处理过程中的中间状态对外部是不可见的，反之亦然</li>
+<li>持久性(Durable) ：事务完成之后，它对于数据的修改是永久性的，即使出现系统故障也能够保持 </li>
+</ul>
+<h4 id="并发事务处理带来的问题"><a href="#并发事务处理带来的问题" class="headerlink" title="并发事务处理带来的问题"></a><strong>并发事务处理带来的问题</strong></h4><ul>
+<li><p>更新丢失(Lost Update)或脏写  </p>
+<p>当两个或多个事务选择同一行，然后基于最初选定的值更新该行时，由于每个事务都不知道其他事务的存在，就会发生丢失更新问题–<strong>最后的更新覆盖了由其他事务所做的更新</strong>  </p>
+</li>
+<li><p>脏读（Dirty Reads）  </p>
+<p>事务A读取到了事务B已经修改但尚未提交的数据，还在这个数据基础上做了操作。此时，如果B事务回滚，A读取的数据无效，不符合一致性要求  </p>
+</li>
+<li><p>不可重读（Non-Repeatable Reads）  </p>
+<p>一个事务在读取某些数据后的某个时间，再次读取以前读过的数据，却发现其读出的数据已经发生了改变、或某些记录已经被删除了！这种现象就叫做“不可重复读”。一句话：<strong>事务A内部的相同查询语句在不同时刻读出的结果不一致，不符合隔离性</strong> </p>
+</li>
+<li><p>幻读（Phantom Reads  </p>
+<p>一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据，这种现象就称为“幻读”。一句话：<strong>事务A读取到了事务B提交的新增数据，不符合隔离性</strong>  </p>
+</li>
+</ul>
+<h4 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h4><p>“脏读”、“不可重复读”和“幻读”,其实都是数据库读一致性问题,必须由数据库提供一定的事务隔离机制来解决  </p>
+<table>
+<thead>
+<tr>
+<th>事务隔离级别</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>读未提交（read-uncommitted）</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>不可重复读（read-committed）</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>可重复读（repeatable-read）</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>串行化（serializable）</td>
+<td>否</td>
+<td>否</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<p>常看当前数据库的事务隔离级别: <code>show variables like &#39;tx_isolation&#39;;</code><br>设置事务隔离级别：<code>set tx_isolation=&#39;REPEATABLE-READ&#39;;</code><br>Mysql默认的事务隔离级别是可重复读，用Spring开发程序时，如果不设置隔离级别默认用Mysql设置的隔<br>离级别，如果Spring设置了就用已经设置的隔离级别</p>
+<h4 id="锁详解"><a href="#锁详解" class="headerlink" title="锁详解"></a>锁详解</h4><p><strong>锁分类</strong>  </p>
+<ul>
+<li><p>从性能上分为乐观锁(用版本对比来实现)和悲观锁  </p>
+</li>
+<li><p>从对数据库操作的类型分，分为读锁和写锁(都属于悲观锁)  </p>
+<ul>
+<li>读锁（共享锁，S锁(<strong>S</strong>hared)）：针对同一份数据，多个读操作可以同时进行而不会互相影响  </li>
+<li>写锁（排它锁，X锁(e<strong>X</strong>clusive)）：当前写操作没有完成前，它会阻断其他写锁和读锁  </li>
+</ul>
+</li>
+<li><p>从对数据操作的粒度分，分为表锁和行锁  </p>
+<ul>
+<li><p>表锁：每次操作锁住整张表。开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低；<br>一般用在整表数据迁移的场景  </p>
+<ul>
+<li>手动增加表锁 <code>lock table 表名称 read(write),表名称2 read(write);</code></li>
+<li>查看表上加过的锁 <code>show open tables;</code></li>
+<li>删除表锁 <code>unlock tables;</code>  </li>
+</ul>
+</li>
+<li><p>行锁 ：每次操作锁住一行数据。开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度最高 </p>
+<p>InnoDB与MYISAM的最大不同有两点  </p>
+<ul>
+<li>InnoDB支持事务（TRANSACTION）  </li>
+<li>InnoDB支持行级锁 ,只能支持表锁</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>MyISAM在执行查询语句SELECT前，会自动给涉及的所有表加读锁,在执行update、insert、delete操作会自动给涉及的表加写锁。
+InnoDB在执行查询语句SELECT时，因为有mvcc机制不会加锁。但是update、insert、delete操作会加行锁。
+简而言之，就是**读锁会阻塞写，但是不会阻塞读。而写锁则会把读和写都阻塞**  </code></pre>
+<ul>
+<li><p>间隙锁(Gap Lock)  </p>
+<p>间隙锁，锁的就是两个值之间的空隙。Mysql默认级别是repeatable-read，有办法解决幻读问题吗？间隙锁<br>在某些情况下可以解决幻读问题  </p>
+<p>Session没法在这个<strong>范围所包含的所有行记录以及行记录所在的间隙</strong>里插入或修改任何数据  </p>
+<p>间隙锁是在可重复读隔离级别下才会生效  </p>
+</li>
+<li><p>无索引行锁会升级为表锁  </p>
+<p>锁主要是加在索引上，如果对非索引字段更新，行锁可能会变表锁  </p>
+</li>
+</ul>
+<h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><p>死锁是指两个或两个以上的进程在执行过程中，因争夺资源而造成的一种互相等待的现象。正常死锁会自动释放，innodb有一个内在的死锁检测工具，当死锁超过一定时间后，会回滚其中一个事务，innodb_lock_wait_timeout可配置死锁等待超时时间。 </p>
+<p>查看近期死锁日志信息：show engine innodb status\G;<br>大多数情况mysql可以自动检测死锁并回滚产生死锁的那个事务，但是有些情况mysql没法自动检测死锁  </p>
+<p>MySQL有两种死锁处理方式：</p>
+<ol>
+<li>等待，直到超时（innodb_lock_wait_timeout=50s）</li>
+<li>发起死锁检测，主动回滚一条事务，让其他事务继续执行（innodb_deadlock_detect=on）</li>
+</ol>
+<h4 id="锁优化建议"><a href="#锁优化建议" class="headerlink" title="锁优化建议"></a>锁优化建议</h4><ul>
+<li>尽可能让所有数据检索都通过索引来完成，避免无索引行锁升级为表锁</li>
+<li>合理设计索引，尽量缩小锁的范围</li>
+<li>尽可能减少检索条件范围，避免间隙锁</li>
+<li>尽量控制事务大小，减少锁定资源量和时间长度，涉及事务加锁的sql尽量放在事务最后执行</li>
+<li>尽可能低级别事务隔离  </li>
+</ul>
+<h3 id="五、MVCC多版本并发控制"><a href="#五、MVCC多版本并发控制" class="headerlink" title="五、MVCC多版本并发控制"></a>五、MVCC多版本并发控制</h3><p>mysql在可重复读隔离级别下如何保证事务较高的隔离性，同样的sql查询语句在一个事务里多次执行查询结果相同，就算其它事务对数据有修改也不会影响当前事务sql语句的查询结果。<br>这个隔离性就是靠MVCC(Multi-Version Concurrency Control)机制来保证的，对一行数据的读和写两个操作默认是不会通过加锁互斥来保证隔离性，避免了频繁加锁互斥，而在串行化隔离级别为了保证较高的隔离性是通过将所有操作加锁互斥来实现的。<br>mysql在读已提交和可重复读隔离级别下都实现了MVCC机制</p>
+<p><strong>undo日志版本链与read view机制详解</strong></p>
+<p>undo日志版本链是指一行数据被多个事务依次修改过后，在每个事务修改完后，mysql会保留修改前的数据undo回滚日志，并且用两个隐藏字段trx_id和roll_pointer把这些undo日志串联起来形成一个历史记录版本链</p>
+<p>​    <img src="https://ddcdn.jd.com/ddimg/jfs/t1/115270/17/15204/94444/5f3bd334E92a0fa23/f1a519e1570a10b2.png" alt="clipboard.png" style="zoom: 67%;" /></p>
+<p>​    <strong>版本链比对规则：</strong></p>
+<ol>
+<li><p>如果 row 的 trx_id 落在绿色部分( trx_id&lt;min_id )，表示这个版本是已提交的事务生成的，这个数据是可见的；</p>
+</li>
+<li><p>如果 row 的 trx_id 落在红色部分( trx_id&gt;max_id )，表示这个版本是由将来启动的事务生成的，是肯定不可见的；</p>
+</li>
+<li><p>如果 row 的 trx_id 落在黄色部分(min_id &lt;=trx_id&lt;= max_id)，那就包括两种情况</p>
+<p>  a. 若 row 的 trx_id 在视图数组中，表示这个版本是由还没提交的事务生成的，不可见，若 row 的 trx_id 就是当前自己的事务是可见的；</p>
+<p>  b. 若 row 的 trx_id 不在视图数组中，表示这个版本是已经提交了的事务生成的，可见。</p>
+</li>
+</ol>
+<p>对于删除的情况可以认为是update的特殊情况，会将版本链上最新的数据复制一份，然后将trx_id修改成删除操作的trx_id，同时在该条记录的头信息（record header）里的（deleted_flag）标记位写上true，来表示当前记录已经被删除，在查询时按照上面的规则查到对应的记录如果delete_flag标记位为true，意味着记录已被删除，则不返回数据。</p>
+<p><strong>注意：</strong>begin/start transaction 命令并不是一个事务的起点，在执行到它们之后的第一个修改操作InnoDB表的语句，事务才真正启动，才会向mysql申请事务id，mysql内部是严格按照事务的启动顺序来分配事务id的。</p>
 
     </div>
 
@@ -597,7 +783,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.oyiersan.com/2020/08/17/mysql%E6%95%B0%E6%8D%AE%E8%B0%83%E4%BC%98/" title="mysql数据调优">https://blog.oyiersan.com/2020/08/17/mysql数据调优/</a>
+    <a href="https://blog.oyiersan.com/2020/08/17/mysql%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" title="mysql性能调优">https://blog.oyiersan.com/2020/08/17/mysql性能调优/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
