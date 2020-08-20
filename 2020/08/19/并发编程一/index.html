@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.oyiersan.com","root":"/","scheme":"Mist","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
+  </script>
+
+  <meta name="description" content="三、并发编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="并发编程一">
+<meta property="og:url" content="https://blog.oyiersan.com/2020/08/19/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/index.html">
+<meta property="og:site_name" content="Oyiersan">
+<meta property="og:description" content="三、并发编程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/136284/12/7319/24620/5f3cc612Ee535761a/20f552143cd6470f.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/117225/32/15309/44650/5f3cc7cbE7059416c/e0b3fce18f065ce6.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/146310/7/5847/47825/5f3cc83aEf6061082/7f928b5f21c73619.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/126443/1/9987/8049/5f3ccd38E1a53078a/28a1fc585aea8149.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/144176/28/5812/33808/5f3d0263Eef8e3351/d47704f437f40efd.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/140681/11/5796/29808/5f3d0fe2Ed68a3f6d/8054f504ba677fbb.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/130022/19/7434/44148/5f3d10dfE7dcb2184/46550cbd7d03fe25.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/134370/5/7483/77568/5f3ddf0bE4b6d4706/aa40b05c470e6b6f.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/119811/30/13967/183280/5f3de372E8914c743/4efc525f3eee686a.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/125342/16/9992/93901/5f3e211bEbc4dc186/31be86749f8e8437.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/134347/6/7535/69515/5f3e2356Ef2d7cf20/cad33790dd04a03c.png">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/132331/20/7531/135116/5f3e251cEcbe652bc/4bd1214b13b8d8c1.png">
+<meta property="article:published_time" content="2020-08-19T04:21:56.000Z">
+<meta property="article:modified_time" content="2020-08-20T08:08:05.500Z">
+<meta property="article:author" content="Oyiersan">
+<meta property="article:tag" content="腾讯图灵JAVA视频笔记整理">
+<meta property="article:tag" content="计算机结构">
+<meta property="article:tag" content="并发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/136284/12/7319/24620/5f3cc612Ee535761a/20f552143cd6470f.png">
+
+
+<link rel="canonical" href="https://blog.oyiersan.com/2020/08/19/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>并发编程一 | Oyiersan</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Oyiersan</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">一、计算机工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%AF%E8%AF%BA%E4%BE%9D%E6%9B%BC%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">冯诺依曼计算机模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU%E6%8C%87%E4%BB%A4%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">CPU指令结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU%E7%BC%93%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">CPU缓存结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">操作系统内存管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">进程与线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81JMM%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">二、JMM模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JMM%E4%B8%8D%E5%90%8C%E4%BA%8EJVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">JMM不同于JVM内存区域模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JMM%E5%AD%98%E5%9C%A8%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">JMM存在的必要性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%EF%BC%8C%E5%8E%9F%E5%AD%90%E6%80%A7%E4%B8%8E%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">可见性，原子性与有序性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%8E%9F%E5%AD%90%E6%80%A7-amp-%E5%8F%AF%E8%A7%81%E6%80%A7-amp-%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">2.4.</span> <span class="nav-text">如何解决原子性&amp;可见性&amp;有序性问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#volatile"><span class="nav-number">2.5.</span> <span class="nav-text">volatile</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AEMESI"><span class="nav-number">3.</span> <span class="nav-text">三、缓存一致性协议MESI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MESI%E5%8D%8F%E8%AE%AE%E7%BC%93%E5%AD%98%E7%8A%B6%E6%80%81"><span class="nav-number">3.1.</span> <span class="nav-text">MESI协议缓存状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%BC%93%E5%AD%98%EF%BC%88Store-Bufferes%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">存储缓存（Store Bufferes）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81synchronized"><span class="nav-number">4.</span> <span class="nav-text">四、synchronized</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.</span> <span class="nav-text">synchronized底层原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Monitor%E7%9B%91%E8%A7%86%E5%99%A8%E9%94%81"><span class="nav-number">4.2.</span> <span class="nav-text">Monitor监视器锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number">4.3.</span> <span class="nav-text">对象的内存布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E8%86%A8%E8%83%80%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="nav-number">4.4.</span> <span class="nav-text">锁的膨胀升级过程</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Oyiersan"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Oyiersan</p>
+  <div class="site-description" itemprop="description">生活的理想，就是为了理想的生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Oyiersan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Oyiersan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiawu_zhang@163.com" title="E-Mail → mailto:jiawu_zhang@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/2991750592" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;2991750592" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.runoob.com/" title="http:&#x2F;&#x2F;www.runoob.com" rel="noopener" target="_blank">runoob</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.v2ex.com/" title="https:&#x2F;&#x2F;www.v2ex.com" rel="noopener" target="_blank">V2EX</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.acfun.cn/" title="http:&#x2F;&#x2F;www.acfun.cn" rel="noopener" target="_blank">AcFun</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.oyiersan.com/2020/08/19/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Oyiersan">
+      <meta itemprop="description" content="生活的理想，就是为了理想的生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Oyiersan">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          并发编程一
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-19 12:21:56" itemprop="dateCreated datePublished" datetime="2020-08-19T12:21:56+08:00">2020-08-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-20 16:08:05" itemprop="dateModified" datetime="2020-08-20T16:08:05+08:00">2020-08-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">并发编程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>三、并发编程</p>
+<a id="more"></a>
+
+<h3 id="一、计算机工作原理"><a href="#一、计算机工作原理" class="headerlink" title="一、计算机工作原理"></a>一、计算机工作原理</h3><h4 id="冯诺依曼计算机模型"><a href="#冯诺依曼计算机模型" class="headerlink" title="冯诺依曼计算机模型"></a><strong>冯诺依曼计算机模型</strong></h4><img src="https://ddcdn.jd.com/ddimg/jfs/t1/136284/12/7319/24620/5f3cc612Ee535761a/20f552143cd6470f.png" alt="1024px-Von_Neumann_architecture.svg.png" style="zoom: 33%;" />
+
+<p><strong>计算机五大核心组成部分</strong></p>
+<ol>
+<li>控制器(Control)：是整个计算机的中枢神经，其功能是对程序规定的控制信息进行解释，根据其要求进行控制，调度程序、数据、地址，协调计算机各部分工作及内存与外设的访问等。</li>
+<li>运算器(Datapath)：运算器的功能是对数据进行各种算术运算和逻辑运算，即对数据进行加工处理。</li>
+<li>存储器(Memory)：存储器的功能是存储程序、数据和各种信号、命令等信息，并在需要时提供这些信息。</li>
+<li>输入(Input system)：输入设备是计算机的重要组成部分，输入设备与输出设备合你为外部设备，简称外设，输入设备的作用是将程序、原始数据、文字、字符、控制命令或现场采集的数据等信息输入到计算机。常见的输入设备有键盘、鼠标器、光电输入机、磁带机、磁盘机、光盘机等。</li>
+<li>输出(Output system)：输出设备与输入设备同样是计算机的重要组成部分，它把外算机的中间结果或最后结果、机内的各种数据符号及文字或各种控制信号等信息输出出来。微机常用的输出设备有显示终端CRT、打印机、激光印字机、绘图仪及磁带、光盘机等。</li>
+</ol>
+<h4 id="CPU指令结构"><a href="#CPU指令结构" class="headerlink" title="CPU指令结构"></a><strong>CPU指令结构</strong></h4><img src="https://ddcdn.jd.com/ddimg/jfs/t1/117225/32/15309/44650/5f3cc7cbE7059416c/e0b3fce18f065ce6.png" alt="clipboard.png" style="zoom:80%;" />
+
+<ul>
+<li>控制单元</li>
+<li>运算单元</li>
+<li>数据单元</li>
+</ul>
+<h4 id="CPU缓存结构"><a href="#CPU缓存结构" class="headerlink" title="CPU缓存结构"></a><strong>CPU缓存结构</strong></h4><p>现代CPU为了提升执行效率，减少CPU与内存的交互(交互影响CPU效率)，一般在CPU上集成了多级缓存架构，常见的为三级缓存结构</p>
+<ul>
+<li>L1 Cache，分为数据缓存和指令缓存，逻辑核独占</li>
+<li>L2 Cache，物理核独占，逻辑核共享</li>
+<li>L3 Cache，所有物理核共享</li>
+</ul>
+<img src="https://ddcdn.jd.com/ddimg/jfs/t1/146310/7/5847/47825/5f3cc83aEf6061082/7f928b5f21c73619.png" alt="clipboard.png" style="zoom: 67%;" />
+
+<p><strong>缓存行</strong>：缓存是由最小的存储区块-缓存行(cacheline)组成，缓存行大小通常为64byte。<br><code>如L1缓存大小是512kb,而cacheline = 64byte,那么就是L1里有512 * 1024/64个cacheline</code></p>
+<p>在CPU访问存储设备时，无论是存取数据抑或存取指令，都趋于聚集在一片连续的区域中，这就被称为局部性原理。<br><strong>时间局部性（Temporal Locality）</strong>：如果一个信息项正在被访问，那么在近期它很可能还会被再次访问。比如循环、递归、方法的反复调用等。</p>
+<p><code>比如循环、递归、方法的反复调用等。</code></p>
+<p><strong>空间局部性（Spatial Locality）</strong>：如果一个存储器的位置被引用，那么将来他附近的位置也会被引用。比如顺序执行的代码、连续创建的两个对象、数组等。</p>
+<p><code>比如顺序执行的代码、连续创建的两个对象、数组等。</code></p>
+<h4 id="操作系统内存管理"><a href="#操作系统内存管理" class="headerlink" title="操作系统内存管理"></a><strong>操作系统内存管理</strong></h4><p><strong>执行空间保护</strong><br>操作系统有<strong>用户空间</strong>与<strong>内核空间</strong>两个概念，目的也是为了做到程序运行安全隔离与稳定</p>
+<p>由空间划分，CPU调度的基本单位线程，也划分为：</p>
+<ol>
+<li><p>内核线程(KLT)</p>
+<p>系统内核管理线程(KLT),内核保存线程的状态和上下文信息，线程阻塞不会引起进程阻塞。在多处理器系统上，多线程在多处理器上并行运行。<strong>线程的创建、调度和管理由内核完成</strong>，效率比ULT要慢，比进程操作快。 </p>
+</li>
+<li><p>用户线程(ULT)</p>
+<p>用户程序实现,不依赖操作系统核心,应用提供创建、同步、调度和管理线程的函数来控制用户线程。不需要用户态/内核态切换，速度快。内核对ULT无感知，线程阻塞则进程（包括它的所有线程）阻塞</p>
+</li>
+</ol>
+<h4 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a><strong>进程与线程</strong></h4><p><strong>进程：</strong>现代操作系统在运行一个程序时，会为其创建一个进程；例如，启动一个Java程序，操作系统就会创建一个Java进程。进程是OS(操作系统)资源分配的最小单位</p>
+<p><strong>线程：</strong>线程是OS(操作系统)调度CPU的最小单元，也叫轻量级进程（Light Weight Process），在一个进程里可以创建多个线程，这些线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。CPU在这些线程上高速切换，让使用者感觉到这些线程在同时执行，即并发的概念，相似的概念还有并行</p>
+<p>线程上下文切换过程：</p>
+<img src="https://ddcdn.jd.com/ddimg/jfs/t1/126443/1/9987/8049/5f3ccd38E1a53078a/28a1fc585aea8149.png" alt="clipboard.png" style="zoom:80%;" />
+
+
+
+<h3 id="二、JMM模型"><a href="#二、JMM模型" class="headerlink" title="二、JMM模型"></a>二、JMM模型</h3><p>Java内存模型(Java Memory Model简称JMM)是一种抽象的概念，并不真实存在，它描述的是一组规则或规范，通过这组规范定义了程序中各个变量（包括实例字段，静态字段和构成数组对象的元素）的访问方式。</p>
+<h4 id="JMM不同于JVM内存区域模型"><a href="#JMM不同于JVM内存区域模型" class="headerlink" title="JMM不同于JVM内存区域模型"></a><strong>JMM不同于JVM内存区域模型</strong></h4><p>JMM与JVM内存区域的划分是不同的概念层次，更恰当说JMM描述的是一组规则，通过这组规则控制程序中各个变量在共享数据区域和私有数据区域的访问方式，<strong>JMM是围绕原子性，有序性、可见性展开</strong>。JMM与Java内存区域唯一相似点，都存在共享数据区域和私有数据区域，<strong>在JMM中<code>主内存</code>属于共享数据区域，从某个程度上讲应该包括了堆和方法区，而<code>工作内存</code>数据线程私有数据区域，从某个程度上讲则应该包括程序计数器、虚拟机栈以及本地方法栈。</strong></p>
+<p>线程，工作内存，主内存工作交互图（基于JMM规范）：</p>
+<img src="https://ddcdn.jd.com/ddimg/jfs/t1/144176/28/5812/33808/5f3d0263Eef8e3351/d47704f437f40efd.png" alt="clipboard.png" style="zoom: 67%;" />
+
+<ul>
+<li><strong>主内存</strong><br>主要存储的是Java实例对象，所有线程创建的实例对象都存放在主内存中，不管该**实例对象是成员变量还是方法中的本地变量(也称局部变量)**，当然也包括了共享的类信息、常量、静态变量。由于是共享数据区域，多条线程对同一个变量进行访问可能会发生线程安全问题。</li>
+<li><strong>工作内存</strong><br>主要存储当前方法的所有本地变量信息(<strong>工作内存中存储着主内存中的变量副本拷贝</strong>)，每个线程只能访问自己的工作内存，即线程中的本地变量对<strong>其它线程是不可见</strong>的，就算是两个线程执行的是同一段代码，它们也会各自在自己的工作内存中创建属于当前线程的本地变量，当然也包括了字节码行号指示器、相关Native方法的信息。注意由于工作内存是每个线程的私有数据，线程间无法相互访问工作内存，因此存储在工作内存的数据不存在线程安全问题。</li>
+</ul>
+<p>根据JVM虚拟机规范主内存与工作内存的数据存储类型以及操作方式，对于一个实例对象中的成员方法而言，如果方法中包含本地变量是<strong>基本数据类型（boolean,byte,short,char,int,long,float,double）</strong>，将直接存储在工作内存的帧栈结构中，但倘若本地变量是<strong>引用类型</strong>，那么该变量的引用会存储在功能内存的<strong>帧栈中</strong>，而对象<strong>实例将存储在主内存</strong>(共享数据区域，堆)中。但对于实例对象的成员变量，不管它是基本数据类型或者包装类型(Integer、Double等)还是引用类型，都会被存储到堆区。至于static变量以及类本身相关信息将会存储在主内存中。需要注意的是，在主内存中的实例对象可以被多线程共享，倘若两个线程同时调用了同一个对象的同一个方法，那么两条线程会将要操作的数据拷贝一份到自己的工作内存中，执行完成操作后才刷新到主内存。</p>
+<h4 id="JMM存在的必要性"><a href="#JMM存在的必要性" class="headerlink" title="JMM存在的必要性"></a><strong>JMM存在的必要性</strong></h4><img src="https://ddcdn.jd.com/ddimg/jfs/t1/140681/11/5796/29808/5f3d0fe2Ed68a3f6d/8054f504ba677fbb.png" alt="clipboard.png"  />
+
+<p><strong>数据同步八大原子操作</strong></p>
+<ol>
+<li>**lock(锁定)**：作用于主内存的变量，把一个变量标记为一条线程独占状态</li>
+<li>**unlock(解锁)**：作用于主内存的变量，把一个处于锁定状态的变量释放出来，释放后的变量才可以被其他线程锁定</li>
+<li>**read(读取)**：作用于主内存的变量，把一个变量值从主内存传输到线程的工作内存中，以便随后的load动作使用</li>
+<li>**load(载入)**：作用于工作内存的变量，它把read操作从主内存中得到的变量值放入工作内存的变量副本中</li>
+<li>**use(使用)**：作用于工作内存的变量，把工作内存中的一个变量值传递给执行引擎</li>
+<li>**assign(赋值)**：作用于工作内存的变量，它把一个从执行引擎接收到的值赋给工作内存的变量</li>
+<li>**store(存储)**：作用于工作内存的变量，把工作内存中的一个变量的值传送到主内存中，以便随后的write的操作</li>
+<li>**write(写入)**：作用于工作内存的变量，它把store操作从工作内存中的一个变量的值传送到主内存的变量中</li>
+</ol>
+<p>如果要把一个变量从主内存中复制到工作内存中，就需要按顺序地执行read和load操作，如果把变量从工作内存中同步到主内存中，就需要按顺序地执行store和write操作。但Java内存模型只要求上述操作必须按顺序执行，而没有保证必须是连续执行。</p>
+<img src="https://ddcdn.jd.com/ddimg/jfs/t1/130022/19/7434/44148/5f3d10dfE7dcb2184/46550cbd7d03fe25.png" alt="clipboard.png" style="zoom: 67%;" />
+
+<p><strong>同步规则分析</strong></p>
+<p>1）不允许一个线程无原因地（没有发生过任何assign操作）把数据从工作内存同步回主内存中</p>
+<p>2）一个新的变量只能在主内存中诞生，不允许在工作内存中直接使用一个未被初始化（load或者assign）的变量。即就是对一个变量实施use和store操作之前，必须先自行assign和load操作。</p>
+<p>3）一个变量在同一时刻只允许一条线程对其进行lock操作，但lock操作可以被同一线程重复执行多次，多次执行lock后，只有执行相同次数的unlock操作，变量才会被解锁。lock和unlock必须成对出现。</p>
+<p>4）如果对一个变量执行lock操作，将会清空工作内存中此变量的值，在执行引擎使用这个变量之前需要重新执行load或assign操作初始化变量的值。</p>
+<p>5）如果一个变量事先没有被lock操作锁定，则不允许对它执行unlock操作；也不允许去unlock一个被其他线程锁定的变量。</p>
+<p>6）对一个变量执行unlock操作之前，必须先把此变量同步到主内存中（执行store和write操作）</p>
+<h4 id="可见性，原子性与有序性"><a href="#可见性，原子性与有序性" class="headerlink" title="可见性，原子性与有序性"></a><strong>可见性，原子性与有序性</strong></h4><ul>
+<li><p><strong>原子性</strong></p>
+<p>一个操作是不可中断的，即使是在多线程环境下，一个操作一旦开始就不会被其他线程影响</p>
+<p>对<strong>基本数据类型的变量的读取和赋值操作是原子性操作</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X=<span class="number">10</span>;  <span class="comment">//原子性（简单的读取、将数字赋值给变量） </span></span><br><span class="line">Y = x;  <span class="comment">//变量之间的相互赋值，不是原子操作</span></span><br><span class="line">x++;  <span class="comment">//对变量进行计算操作 </span></span><br><span class="line">X = x+<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>可见性</strong></p>
+<p>当一个线程修改了某个共享变量的值，其他线程是否能够马上得知这个修改的值。对于串行程序来说，可见性是不存在的，因为我们在任何一个操作中修改了某个变量的值，后续的操作中都能读取这个变量值，并且是修改过的新值。</p>
+</li>
+<li><p><strong>有序性</strong></p>
+<p>对于单线程的执行代码，我们总是认为代码的执行是按顺序依次执行的，这样的理解并没有毛病，毕竟对于单线程而言确实如此，但对于多线程环境，则可能出现乱序现象，因为程序编译成机器码指令后可能会出现指令重排现象，重排后的指令与原指令的顺序未必一致，要明白的是，在Java程序中，倘若在本线程内，所有操作都视为有序行为，如果是多线程环境下，一个线程中观察另外一个线程，所有操作都是无序的，前半句指的是单线程内保证串行语义执行的一致性，后半句则指指令重排现象和工作内存与主内存同步延迟现象。</p>
+</li>
+</ul>
+<h4 id="如何解决原子性-amp-可见性-amp-有序性问题"><a href="#如何解决原子性-amp-可见性-amp-有序性问题" class="headerlink" title="如何解决原子性&amp;可见性&amp;有序性问题"></a><strong>如何解决原子性&amp;可见性&amp;有序性问题</strong></h4><ul>
+<li><p><strong>原子性问题</strong></p>
+<p>除了JVM自身提供的对基本数据类型读写操作的原子性外，可以通过 synchronized和Lock实现原子性。因为synchronized和Lock能够保证任一时刻只有一个线程访问该代码块。</p>
+</li>
+<li><p><strong>可见性问题</strong></p>
+<p>volatile关键字保证可见性。当一个共享变量被volatile修饰时，它会保证修改的值立即被其他的线程看到，即修改的值立即更新到主存中，当其他线程需要读取时，它会去内存中读取新值。synchronized和Lock也可以保证可见性，因为它们可以保证任一时刻只有一个线程能访问共享资源，并在其释放锁之前将修改的变量刷新到内存中。</p>
+</li>
+<li><p><strong>有序性问题</strong></p>
+<p>可以通过volatile关键字来保证一定的“有序性”。另外可以通过synchronized和Lock来保证有序性，很显然，synchronized和Lock保证每个时刻是有一个线程执行同步代码，相当于是让线程顺序执行同步代码，自然就保证了有序性。</p>
+<ul>
+<li><p><strong>指令重排序</strong>：java语言规范规定JVM线程内部维持顺序化语义。即只要程序的<strong>最终结果与它顺序化情况的结果相等</strong>，那么指令的执行顺序可以与代码顺序不一致，此过程叫指令的重排序。指令重排序的意义是什么？JVM能根据处理器特性（CPU多级缓存系统、多核处理器等）适当的对机器指令进行重排序，使机器指令能更符合CPU的执行特性，最大限度的发挥机器性能。</p>
+</li>
+<li><p><strong>happens-before 原则</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a><strong>volatile</strong></h4><p>​    volatile是Java虚拟机提供的轻量级的同步机制。volatile关键字有如下两个作用</p>
+<ul>
+<li><p>保证被volatile修饰的共享变量对所有线程总数可见的，也就是当一个线程修改了一个被volatile修饰共享变量的值，新值总是可以被其他线程立即得知。</p>
+</li>
+<li><p>禁止指令重排序优化。</p>
+<ul>
+<li><p>硬件层的内存屏障</p>
+<p><strong>内存屏障</strong>，又称内存栅栏，是一个CPU指令，它的作用有两个，一是保证特定操作的执行顺序，二是保证某些变量的内存可见性（利用该特性实现volatile的内存可见性）。</p>
+<p>**写屏障 Store Memory Barrier(a.k.a. ST, SMB, smp_wmb)**是一条告诉处理器在执行这之后的指令之前，应用所有已经在存储缓存（store buffer）中的保存的指令。在更新数据之前必须将所有存储缓存（store buffer）中的指令执行完毕。</p>
+<p>**读屏障Load Memory Barrier (a.k.a. LD, RMB, smp_rmb)**是一条告诉处理器在执行任何的加载前，先应用所有已经在失效队列中的失效操作的指令。在读取之前将所有失效队列中关于该数据的指令执行完毕。</p>
+</li>
+</ul>
+</li>
+<li><p>volatile无法保证原子性</p>
+</li>
+</ul>
+<h3 id="三、缓存一致性协议MESI"><a href="#三、缓存一致性协议MESI" class="headerlink" title="三、缓存一致性协议MESI"></a>三、<strong>缓存一致性协议MESI</strong></h3><img src="https://ddcdn.jd.com/ddimg/jfs/t1/134370/5/7483/77568/5f3ddf0bE4b6d4706/aa40b05c470e6b6f.png" alt="5-1411867425.png" style="zoom:80%;" />
+
+<p>多核CPU的情况下有多个一级缓存，如何保证缓存内部数据的一致,不让系统数据混乱。</p>
+<h4 id="MESI协议缓存状态"><a href="#MESI协议缓存状态" class="headerlink" title="MESI协议缓存状态"></a><strong>MESI协议缓存状态</strong></h4><p>MESI 是指4中状态的首字母。每个Cache line有4个状态，可用2个bit表示，它们分别是：</p>
+<p><strong>缓存行（Cache line）</strong>:缓存存储数据的单元（64Bytes）。</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>描述</th>
+<th>监听任务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M 修改 (Modified)</td>
+<td>该Cache line有效，数据被修改了，和内存中的数据不一致，数据只存在于本Cache中。</td>
+<td>缓存行必须时刻监听所有试图读该缓存行相对就主存的操作，这种操作必须在缓存将该缓存行写回主存并将状态变成S（共享）状态之前被延迟执行。</td>
+</tr>
+<tr>
+<td>E 独享、互斥 (Exclusive)</td>
+<td>该Cache line有效，数据和内存中的数据一致，数据只存在于本Cache中。</td>
+<td>缓存行也必须监听其它缓存读主存中该缓存行的操作，一旦有这种操作，该缓存行需要变成S（共享）状态。</td>
+</tr>
+<tr>
+<td>S 共享 (Shared)</td>
+<td>该Cache line有效，数据和内存中的数据一致，数据存在于很多Cache中。</td>
+<td>缓存行也必须监听其它缓存使该缓存行无效或者独享该缓存行的请求，并将该缓存行变成无效（Invalid）。</td>
+</tr>
+<tr>
+<td>I 无效 (Invalid)</td>
+<td>该Cache line无效。</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<img src="https://ddcdn.jd.com/ddimg/jfs/t1/119811/30/13967/183280/5f3de372E8914c743/4efc525f3eee686a.png" alt="MESI协议状态切换过程分析.jpg" style="zoom: 67%;" />
+
+
+<h4 id="存储缓存（Store-Bufferes）"><a href="#存储缓存（Store-Bufferes）" class="headerlink" title="存储缓存（Store Bufferes）"></a><strong>存储缓存（Store Bufferes）</strong></h4><p>比如你需要修改本地缓存中的一条信息，那么你必须将I（无效）状态通知到其他拥有该缓存数据的CPU缓存中，并且等待确认。等待确认的过程会阻塞处理器，这会降低处理器的性能。应为这个等待远远比一个指令的执行时间长的多。</p>
+<p><strong>Store Bufferes</strong></p>
+<p>为了避免这种CPU运算能力的浪费，Store Bufferes被引入使用。处理器把它想要写入到主存的值写到缓存，然后继续去处理其他事情。当所有失效确认（Invalidate Acknowledge）都接收到时，数据才会最终被提交。</p>
+<p><strong>Store Bufferes的风险</strong></p>
+<p>第一、就是处理器会尝试从存储缓存（Store buffer）中读取值，但它还没有进行提交。这个的解决方案称为Store Forwarding，它使得加载的时候，如果存储缓存中存在，则进行返回。</p>
+<p>第二、保存什么时候会完成，这个并没有任何保证。</p>
+<p>解决办法内存屏障（Memory Barriers）</p>
+<h3 id="四、synchronized"><a href="#四、synchronized" class="headerlink" title="四、synchronized"></a>四、synchronized</h3><p><strong>synchronized内置锁是一种对象锁(锁的是对象而非引用)，作用粒度是对象，可以用来实现对临界资源的同步互斥访问，是可重入的。</strong></p>
+<p>加锁的方式：</p>
+<ol>
+<li>同步实例方法，锁是当前实例对象</li>
+<li>同步类方法，锁是当前类对象（object.class）</li>
+<li>同步代码块，锁是括号里面的对象</li>
+</ol>
+<h4 id="synchronized底层原理"><a href="#synchronized底层原理" class="headerlink" title="synchronized底层原理"></a><strong>synchronized底层原理</strong></h4><p>synchronized是基于JVM内置锁实现，通过内部对象<strong>Monitor</strong>(监视器锁)实现，基于进入与退出<strong>Monitor</strong>对象实现方法与代码块同步，监视器锁的实现依赖底层操作系统的Mutex lock（互斥锁）实现，它是一个重量级锁性能较低。<br>synchronized关键字被编译成字节码后会被翻译成monitorenter 和 monitorexit 两条指令分别在同步块逻辑代码的起始位置与结束位置。</p>
+<p>每个同步对象都有一个自己的Monitor(监视器锁)</p>
+<p><img src="https://ddcdn.jd.com/ddimg/jfs/t1/125342/16/9992/93901/5f3e211bEbc4dc186/31be86749f8e8437.png" alt="clipboard.png"></p>
+<h4 id="Monitor监视器锁"><a href="#Monitor监视器锁" class="headerlink" title="Monitor监视器锁"></a><strong>Monitor监视器锁</strong></h4><p>任何一个对象都有一个Monitor与之关联，当且一个Monitor被持有后，它将处于锁定状态，通过成对的MonitorEnter和MonitorExit指令来实现，<strong>可重入</strong>。</p>
+<ul>
+<li><p><strong>monitorenter</strong>：每个对象都是一个监视器锁（monitor）。当monitor被占用时就会处于锁定状态，线程执行monitorenter指令时尝试获取monitor的所有权，过程如下：</p>
+</li>
+<li><ol>
+<li><strong>如果monitor的进入数为0</strong>，则该线程进入monitor，然后将进入数设置为1，该线程即为monitor的所有者；</li>
+<li><strong>如果线程已经占有该monitor</strong>，只是重新进入，则进入monitor的进入数加1；</li>
+<li><strong>如果其他线程已经占用了monitor</strong>，则该线程进入阻塞状态，直到monitor的进入数为0，再重新尝试获取monitor的所有权；</li>
+</ol>
+</li>
+<li><p><strong>monitorexit</strong>：执行monitorexit的线程必须是objectref所对应的monitor的所有者。<strong>指令执行时，monitor的进入数减1，如果减1后进入数为0，那线程退出monitor，不再是这个monitor的所有者</strong>。其他被这个monitor阻塞的线程可以尝试去获取这个 monitor 的所有权。</p>
+</li>
+</ul>
+<p>方法的同步通过<code>ACC_SYNCHRONIZED</code> 标示符。<strong>JVM就是根据该标示符来实现方法的同步的</strong>：</p>
+<p><strong>Monitor对象存在于每个Java对象的对象头Mark Word中（存储的指针的指向），Synchronized锁便是通过这种方式获取锁的</strong>，也是为什么Java中任意对象可以作为锁的原因，<strong>同时notify/notifyAll/wait等方法会使用到Monitor锁对象，所以必须在同步代码块中使用</strong>。监视器Monitor有两种同步方式：<strong>互斥与协作</strong>。多线程环境下线程之间如果需要共享数据，需要解决互斥访问数据的问题，<strong>监视器可以确保监视器上的数据在同一时刻只会有一个线程在访问</strong>。</p>
+<h4 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a><strong>对象的内存布局</strong></h4><img src="https://ddcdn.jd.com/ddimg/jfs/t1/134347/6/7535/69515/5f3e2356Ef2d7cf20/cad33790dd04a03c.png" alt="clipboard.png" style="zoom:80%;" />
+
+<p>HotSpot虚拟机中，对象在内存中存储的布局可以分为三块区域：对象头（Header）、实例数据（Instance Data）和对齐填充（Padding）。</p>
+<ul>
+<li>对象头：比如 hash码，对象所属的年代，对象锁，锁状态标志，偏向锁（线程）ID，偏向时间，数组长度（数组对象）等。<strong>Java对象头一般占有2个机器码</strong>（在32位虚拟机中，1个机器码等于4字节，也就是32bit，在64位虚拟机中，1个机器码是8个字节，也就是64bit），但是 <strong>如果对象是数组类型，则需要3个机器码，因为JVM虚拟机可以通过Java对象的元数据信息确定Java对象的大小</strong>，但是无法从数组的元数据来确认数组的大小，所以用一块来记录数组长度。</li>
+<li>实例数据：存放类的属性数据信息，包括父类的属性信息；</li>
+<li>对齐填充：由于虚拟机要求 <strong>对象起始地址必须是8字节的整数倍</strong>。填充数据不是必须存在的，仅仅是为了字节对齐；</li>
+</ul>
+<p>32位虚拟机</p>
+<img src="https://ddcdn.jd.com/ddimg/jfs/t1/132331/20/7531/135116/5f3e251cEcbe652bc/4bd1214b13b8d8c1.png" alt="H73f3bebcbad745329c36f7b405d2f158R.png"  />
+
+<h4 id="锁的膨胀升级过程"><a href="#锁的膨胀升级过程" class="headerlink" title="锁的膨胀升级过程"></a><strong>锁的膨胀升级过程</strong></h4><p>锁的状态总共有四种，无锁状态、偏向锁、轻量级锁和重量级锁。随着锁的竞争，锁可以从偏向锁升级到轻量级锁，再升级的重量级锁，但是锁的升级是单向的，也就是说只能从低到高升级，不会出现锁的降级。</p>
+<ul>
+<li><p><strong>偏向锁</strong></p>
+</li>
+<li><p><strong>轻量级锁</strong></p>
+</li>
+<li><p><strong>自旋锁</strong></p>
+<p>轻量级锁失败后，虚拟机为了避免线程真实地在操作系统层面挂起，还会进行一项称为自旋锁的优化手段。</p>
+</li>
+<li><p><strong>锁消除</strong></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Oyiersan
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.oyiersan.com/2020/08/19/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" title="并发编程一">https://blog.oyiersan.com/2020/08/19/并发编程一/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%85%BE%E8%AE%AF%E5%9B%BE%E7%81%B5JAVA%E8%A7%86%E9%A2%91%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86/" rel="tag"># 腾讯图灵JAVA视频笔记整理</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%93%E6%9E%84/" rel="tag"># 计算机结构</a>
+              <a href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag"># 并发</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/17/mysql%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" rel="prev" title="mysql性能调优">
+                  <i class="fa fa-chevron-left"></i> mysql性能调优
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Oyiersan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+      
+
+
+
+
+
+
+
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
