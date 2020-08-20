@@ -42,7 +42,7 @@
 <meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/134347/6/7535/69515/5f3e2356Ef2d7cf20/cad33790dd04a03c.png">
 <meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/132331/20/7531/135116/5f3e251cEcbe652bc/4bd1214b13b8d8c1.png">
 <meta property="article:published_time" content="2020-08-19T04:21:56.000Z">
-<meta property="article:modified_time" content="2020-08-20T08:08:05.500Z">
+<meta property="article:modified_time" content="2020-08-20T08:22:59.416Z">
 <meta property="article:author" content="Oyiersan">
 <meta property="article:tag" content="腾讯图灵JAVA视频笔记整理">
 <meta property="article:tag" content="计算机结构">
@@ -196,7 +196,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">一、计算机工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%AF%E8%AF%BA%E4%BE%9D%E6%9B%BC%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">冯诺依曼计算机模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU%E6%8C%87%E4%BB%A4%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">CPU指令结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU%E7%BC%93%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">CPU缓存结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">操作系统内存管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">进程与线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81JMM%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">二、JMM模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JMM%E4%B8%8D%E5%90%8C%E4%BA%8EJVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">JMM不同于JVM内存区域模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JMM%E5%AD%98%E5%9C%A8%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">JMM存在的必要性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%EF%BC%8C%E5%8E%9F%E5%AD%90%E6%80%A7%E4%B8%8E%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">可见性，原子性与有序性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%8E%9F%E5%AD%90%E6%80%A7-amp-%E5%8F%AF%E8%A7%81%E6%80%A7-amp-%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">2.4.</span> <span class="nav-text">如何解决原子性&amp;可见性&amp;有序性问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#volatile"><span class="nav-number">2.5.</span> <span class="nav-text">volatile</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AEMESI"><span class="nav-number">3.</span> <span class="nav-text">三、缓存一致性协议MESI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MESI%E5%8D%8F%E8%AE%AE%E7%BC%93%E5%AD%98%E7%8A%B6%E6%80%81"><span class="nav-number">3.1.</span> <span class="nav-text">MESI协议缓存状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%BC%93%E5%AD%98%EF%BC%88Store-Bufferes%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">存储缓存（Store Bufferes）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81synchronized"><span class="nav-number">4.</span> <span class="nav-text">四、synchronized</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.</span> <span class="nav-text">synchronized底层原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Monitor%E7%9B%91%E8%A7%86%E5%99%A8%E9%94%81"><span class="nav-number">4.2.</span> <span class="nav-text">Monitor监视器锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number">4.3.</span> <span class="nav-text">对象的内存布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E8%86%A8%E8%83%80%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="nav-number">4.4.</span> <span class="nav-text">锁的膨胀升级过程</span></a></li></ol></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">一、计算机工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%AF%E8%AF%BA%E4%BE%9D%E6%9B%BC%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">冯诺依曼计算机模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU%E6%8C%87%E4%BB%A4%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">CPU指令结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU%E7%BC%93%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">CPU缓存结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">操作系统内存管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">进程与线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81JMM%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">二、JMM模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JMM%E4%B8%8D%E5%90%8C%E4%BA%8EJVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">JMM不同于JVM内存区域模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JMM%E5%AD%98%E5%9C%A8%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">JMM存在的必要性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%EF%BC%8C%E5%8E%9F%E5%AD%90%E6%80%A7%E4%B8%8E%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">可见性，原子性与有序性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%8E%9F%E5%AD%90%E6%80%A7-amp-%E5%8F%AF%E8%A7%81%E6%80%A7-amp-%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">2.4.</span> <span class="nav-text">如何解决原子性&amp;可见性&amp;有序性问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81volatile"><span class="nav-number">3.</span> <span class="nav-text">三、volatile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AEMESI"><span class="nav-number">4.</span> <span class="nav-text">四、缓存一致性协议MESI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MESI%E5%8D%8F%E8%AE%AE%E7%BC%93%E5%AD%98%E7%8A%B6%E6%80%81"><span class="nav-number">4.1.</span> <span class="nav-text">MESI协议缓存状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%BC%93%E5%AD%98%EF%BC%88Store-Bufferes%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">存储缓存（Store Bufferes）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81synchronized"><span class="nav-number">5.</span> <span class="nav-text">五、synchronized</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">5.1.</span> <span class="nav-text">synchronized底层原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Monitor%E7%9B%91%E8%A7%86%E5%99%A8%E9%94%81"><span class="nav-number">5.2.</span> <span class="nav-text">Monitor监视器锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number">5.3.</span> <span class="nav-text">对象的内存布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E8%86%A8%E8%83%80%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="nav-number">5.4.</span> <span class="nav-text">锁的膨胀升级过程</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -324,7 +324,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-20 16:08:05" itemprop="dateModified" datetime="2020-08-20T16:08:05+08:00">2020-08-20</time>
+                <time title="修改时间：2020-08-20 16:22:59" itemprop="dateModified" datetime="2020-08-20T16:22:59+08:00">2020-08-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -404,19 +404,19 @@
 <li><strong>主内存</strong><br>主要存储的是Java实例对象，所有线程创建的实例对象都存放在主内存中，不管该**实例对象是成员变量还是方法中的本地变量(也称局部变量)**，当然也包括了共享的类信息、常量、静态变量。由于是共享数据区域，多条线程对同一个变量进行访问可能会发生线程安全问题。</li>
 <li><strong>工作内存</strong><br>主要存储当前方法的所有本地变量信息(<strong>工作内存中存储着主内存中的变量副本拷贝</strong>)，每个线程只能访问自己的工作内存，即线程中的本地变量对<strong>其它线程是不可见</strong>的，就算是两个线程执行的是同一段代码，它们也会各自在自己的工作内存中创建属于当前线程的本地变量，当然也包括了字节码行号指示器、相关Native方法的信息。注意由于工作内存是每个线程的私有数据，线程间无法相互访问工作内存，因此存储在工作内存的数据不存在线程安全问题。</li>
 </ul>
-<p>根据JVM虚拟机规范主内存与工作内存的数据存储类型以及操作方式，对于一个实例对象中的成员方法而言，如果方法中包含本地变量是<strong>基本数据类型（boolean,byte,short,char,int,long,float,double）</strong>，将直接存储在工作内存的帧栈结构中，但倘若本地变量是<strong>引用类型</strong>，那么该变量的引用会存储在功能内存的<strong>帧栈中</strong>，而对象<strong>实例将存储在主内存</strong>(共享数据区域，堆)中。但对于实例对象的成员变量，不管它是基本数据类型或者包装类型(Integer、Double等)还是引用类型，都会被存储到堆区。至于static变量以及类本身相关信息将会存储在主内存中。需要注意的是，在主内存中的实例对象可以被多线程共享，倘若两个线程同时调用了同一个对象的同一个方法，那么两条线程会将要操作的数据拷贝一份到自己的工作内存中，执行完成操作后才刷新到主内存。</p>
+<p>根据JVM虚拟机规范主内存与工作内存的数据存储类型以及操作方式，对于一个实例对象中的成员方法而言，<br>如果方法中包含本地变量是<strong>基本数据类型</strong>（boolean,byte,short,char,int,long,float,double），将直接存储在工作内存的帧栈结构中，但倘若本地变量是<strong>引用类型</strong>，那么该变量的引用会存储在功能内存的<strong>帧栈中</strong>，而对象<strong>实例将存储在主内存</strong>(共享数据区域，堆)中。但对于实例对象的成员变量，不管它是基本数据类型或者包装类型(Integer、Double等)还是引用类型，都会被存储到堆区。至于static变量以及类本身相关信息将会存储在主内存中。需要注意的是，在主内存中的实例对象可以被多线程共享，倘若两个线程同时调用了同一个对象的同一个方法，那么两条线程会将要操作的数据拷贝一份到自己的工作内存中，执行完成操作后才刷新到主内存。</p>
 <h4 id="JMM存在的必要性"><a href="#JMM存在的必要性" class="headerlink" title="JMM存在的必要性"></a><strong>JMM存在的必要性</strong></h4><img src="https://ddcdn.jd.com/ddimg/jfs/t1/140681/11/5796/29808/5f3d0fe2Ed68a3f6d/8054f504ba677fbb.png" alt="clipboard.png"  />
 
 <p><strong>数据同步八大原子操作</strong></p>
 <ol>
-<li>**lock(锁定)**：作用于主内存的变量，把一个变量标记为一条线程独占状态</li>
-<li>**unlock(解锁)**：作用于主内存的变量，把一个处于锁定状态的变量释放出来，释放后的变量才可以被其他线程锁定</li>
-<li>**read(读取)**：作用于主内存的变量，把一个变量值从主内存传输到线程的工作内存中，以便随后的load动作使用</li>
-<li>**load(载入)**：作用于工作内存的变量，它把read操作从主内存中得到的变量值放入工作内存的变量副本中</li>
-<li>**use(使用)**：作用于工作内存的变量，把工作内存中的一个变量值传递给执行引擎</li>
-<li>**assign(赋值)**：作用于工作内存的变量，它把一个从执行引擎接收到的值赋给工作内存的变量</li>
-<li>**store(存储)**：作用于工作内存的变量，把工作内存中的一个变量的值传送到主内存中，以便随后的write的操作</li>
-<li>**write(写入)**：作用于工作内存的变量，它把store操作从工作内存中的一个变量的值传送到主内存的变量中</li>
+<li><strong>lock</strong>(锁定)：作用于主内存的变量，把一个变量标记为一条线程独占状态</li>
+<li><strong>unlock</strong>(解锁)：作用于主内存的变量，把一个处于锁定状态的变量释放出来，释放后的变量才可以被其他线程锁定</li>
+<li><strong>read</strong>(读取)：作用于主内存的变量，把一个变量值从主内存传输到线程的工作内存中，以便随后的load动作使用</li>
+<li><strong>load</strong>(载入)：作用于工作内存的变量，它把read操作从主内存中得到的变量值放入工作内存的变量副本中</li>
+<li><strong>use</strong>(使用)：作用于工作内存的变量，把工作内存中的一个变量值传递给执行引擎</li>
+<li><strong>assign</strong>(赋值)：作用于工作内存的变量，它把一个从执行引擎接收到的值赋给工作内存的变量</li>
+<li><strong>store</strong>(存储)：作用于工作内存的变量，把工作内存中的一个变量的值传送到主内存中，以便随后的write的操作</li>
+<li><strong>write</strong>(写入)：作用于工作内存的变量，它把store操作从工作内存中的一个变量的值传送到主内存的变量中</li>
 </ol>
 <p>如果要把一个变量从主内存中复制到工作内存中，就需要按顺序地执行read和load操作，如果把变量从工作内存中同步到主内存中，就需要按顺序地执行store和write操作。但Java内存模型只要求上述操作必须按顺序执行，而没有保证必须是连续执行。</p>
 <img src="https://ddcdn.jd.com/ddimg/jfs/t1/130022/19/7434/44148/5f3d10dfE7dcb2184/46550cbd7d03fe25.png" alt="clipboard.png" style="zoom: 67%;" />
@@ -458,7 +458,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a><strong>volatile</strong></h4><p>​    volatile是Java虚拟机提供的轻量级的同步机制。volatile关键字有如下两个作用</p>
+<h3 id="三、volatile"><a href="#三、volatile" class="headerlink" title="三、volatile"></a>三、volatile</h3><p>​    volatile是Java虚拟机提供的轻量级的同步机制。volatile关键字有如下两个作用</p>
 <ul>
 <li><p>保证被volatile修饰的共享变量对所有线程总数可见的，也就是当一个线程修改了一个被volatile修饰共享变量的值，新值总是可以被其他线程立即得知。</p>
 </li>
@@ -466,15 +466,15 @@
 <ul>
 <li><p>硬件层的内存屏障</p>
 <p><strong>内存屏障</strong>，又称内存栅栏，是一个CPU指令，它的作用有两个，一是保证特定操作的执行顺序，二是保证某些变量的内存可见性（利用该特性实现volatile的内存可见性）。</p>
-<p>**写屏障 Store Memory Barrier(a.k.a. ST, SMB, smp_wmb)**是一条告诉处理器在执行这之后的指令之前，应用所有已经在存储缓存（store buffer）中的保存的指令。在更新数据之前必须将所有存储缓存（store buffer）中的指令执行完毕。</p>
-<p>**读屏障Load Memory Barrier (a.k.a. LD, RMB, smp_rmb)**是一条告诉处理器在执行任何的加载前，先应用所有已经在失效队列中的失效操作的指令。在读取之前将所有失效队列中关于该数据的指令执行完毕。</p>
+<p><strong>写屏障</strong> Store Memory Barrier(a.k.a. ST, SMB, smp_wmb)是一条告诉处理器在执行这之后的指令之前，应用所有已经在存储缓存（store buffer）中的保存的指令。在更新数据之前必须将所有存储缓存（store buffer）中的指令执行完毕。</p>
+<p><strong>读屏障</strong>Load Memory Barrier (a.k.a. LD, RMB, smp_rmb)是一条告诉处理器在执行任何的加载前，先应用所有已经在失效队列中的失效操作的指令。在读取之前将所有失效队列中关于该数据的指令执行完毕。</p>
 </li>
 </ul>
 </li>
 <li><p>volatile无法保证原子性</p>
 </li>
 </ul>
-<h3 id="三、缓存一致性协议MESI"><a href="#三、缓存一致性协议MESI" class="headerlink" title="三、缓存一致性协议MESI"></a>三、<strong>缓存一致性协议MESI</strong></h3><img src="https://ddcdn.jd.com/ddimg/jfs/t1/134370/5/7483/77568/5f3ddf0bE4b6d4706/aa40b05c470e6b6f.png" alt="5-1411867425.png" style="zoom:80%;" />
+<h3 id="四、缓存一致性协议MESI"><a href="#四、缓存一致性协议MESI" class="headerlink" title="四、缓存一致性协议MESI"></a>四、<strong>缓存一致性协议MESI</strong></h3><img src="https://ddcdn.jd.com/ddimg/jfs/t1/134370/5/7483/77568/5f3ddf0bE4b6d4706/aa40b05c470e6b6f.png" alt="5-1411867425.png" style="zoom:80%;" />
 
 <p>多核CPU的情况下有多个一级缓存，如何保证缓存内部数据的一致,不让系统数据混乱。</p>
 <h4 id="MESI协议缓存状态"><a href="#MESI协议缓存状态" class="headerlink" title="MESI协议缓存状态"></a><strong>MESI协议缓存状态</strong></h4><p>MESI 是指4中状态的首字母。每个Cache line有4个状态，可用2个bit表示，它们分别是：</p>
@@ -518,7 +518,7 @@
 <p>第一、就是处理器会尝试从存储缓存（Store buffer）中读取值，但它还没有进行提交。这个的解决方案称为Store Forwarding，它使得加载的时候，如果存储缓存中存在，则进行返回。</p>
 <p>第二、保存什么时候会完成，这个并没有任何保证。</p>
 <p>解决办法内存屏障（Memory Barriers）</p>
-<h3 id="四、synchronized"><a href="#四、synchronized" class="headerlink" title="四、synchronized"></a>四、synchronized</h3><p><strong>synchronized内置锁是一种对象锁(锁的是对象而非引用)，作用粒度是对象，可以用来实现对临界资源的同步互斥访问，是可重入的。</strong></p>
+<h3 id="五、synchronized"><a href="#五、synchronized" class="headerlink" title="五、synchronized"></a>五、synchronized</h3><p><strong>synchronized内置锁是一种对象锁(锁的是对象而非引用)，作用粒度是对象，可以用来实现对临界资源的同步互斥访问，是可重入的。</strong></p>
 <p>加锁的方式：</p>
 <ol>
 <li>同步实例方法，锁是当前实例对象</li>
