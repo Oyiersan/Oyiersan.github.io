@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.oyiersan.com","root":"/","scheme":"Mist","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
+  </script>
+
+  <meta name="description" content="五、linux 常用命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux 常用命令">
+<meta property="og:url" content="https://blog.oyiersan.com/2020/11/21/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Oyiersan">
+<meta property="og:description" content="五、linux 常用命令">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/116488/1/16835/15226/5f5103ddEa3786be6/954c3b9c6e7b8b69.png">
+<meta property="article:published_time" content="2020-11-21T07:51:04.000Z">
+<meta property="article:modified_time" content="2020-11-21T07:57:27.974Z">
+<meta property="article:author" content="Oyiersan">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="shell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/116488/1/16835/15226/5f5103ddEa3786be6/954c3b9c6e7b8b69.png">
+
+
+<link rel="canonical" href="https://blog.oyiersan.com/2020/11/21/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>linux 常用命令 | Oyiersan</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Oyiersan</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">一、系统配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">二、常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E5%88%87%E6%8D%A2%E5%91%BD%E4%BB%A4"><span class="nav-number">2.1.</span> <span class="nav-text">目录切换命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4%EF%BC%88%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">目录的操作命令（增删改查）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4%EF%BC%88%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">文件的操作命令（增删改查）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">2.4.</span> <span class="nav-text">压缩文件的操作命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux%E7%9A%84%E6%9D%83%E9%99%90%E5%91%BD%E4%BB%A4"><span class="nav-number">2.5.</span> <span class="nav-text">Linux的权限命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux-%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86"><span class="nav-number">2.6.</span> <span class="nav-text">Linux 用户管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E7%BB%84%E7%9A%84%E7%AE%A1%E7%90%86"><span class="nav-number">2.7.</span> <span class="nav-text">Linux系统用户组的管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vim%E5%91%BD%E4%BB%A4"><span class="nav-number">2.8.</span> <span class="nav-text">vim命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#crontab-%E5%91%BD%E4%BB%A4"><span class="nav-number">2.9.</span> <span class="nav-text">crontab 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">2.10.</span> <span class="nav-text">其他常用命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81shell%E8%84%9A%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">三、shell脚本</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Oyiersan"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Oyiersan</p>
+  <div class="site-description" itemprop="description">生活的理想，就是为了理想的生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Oyiersan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Oyiersan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiawu_zhang@163.com" title="E-Mail → mailto:jiawu_zhang@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/2991750592" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;2991750592" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.runoob.com/" title="http:&#x2F;&#x2F;www.runoob.com" rel="noopener" target="_blank">runoob</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.v2ex.com/" title="https:&#x2F;&#x2F;www.v2ex.com" rel="noopener" target="_blank">V2EX</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.acfun.cn/" title="http:&#x2F;&#x2F;www.acfun.cn" rel="noopener" target="_blank">AcFun</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.oyiersan.com/2020/11/21/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Oyiersan">
+      <meta itemprop="description" content="生活的理想，就是为了理想的生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Oyiersan">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux 常用命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-21 15:51:04 / 修改时间：15:57:27" itemprop="dateCreated datePublished" datetime="2020-11-21T15:51:04+08:00">2020-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>五、linux 常用命令</p>
+<a id="more"></a>
+
+<h3 id="一、系统配置"><a href="#一、系统配置" class="headerlink" title="一、系统配置"></a>一、系统配置</h3><p>系统目录</p>
+<img src="https://ddcdn.jd.com/ddimg/jfs/t1/116488/1/16835/15226/5f5103ddEa3786be6/954c3b9c6e7b8b69.png" alt="Picture1.png" style="zoom:80%;" />
+
+<ol>
+<li><p><strong>/bin</strong> 存放二进制可执行文件(ls,cat,mkdir等)，常用命令一般都在这里</p>
+</li>
+<li><p><strong>/etc：</strong>存放系统管理和配置文件</p>
+</li>
+<li><p><strong>/home：</strong> 存放所有用户文件的根目录，是用户主目录的基点，比如用户user的主目录就是/home/user，可以用~user表示</p>
+</li>
+<li><p><strong>/usr ：</strong> 用于存放系统应用程序 /usr/local/</p>
+</li>
+<li><p><strong>/var：</strong> 用于存放运行时需要改变数据的文件，也是某些大文件的溢出区，比方说各种服务的日志文件（系统启动日志等。）等；</p>
+<p>……..</p>
+</li>
+</ol>
+<ul>
+<li><p>配置ip地址等信息</p>
+<p><code>/etc/sysconfig/network-scripts/ifcfg-eno16777736</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">TYPE=Ethernet # 网络类型为以太网</span><br><span class="line">BOOTPROTO=static # 手动分配ip</span><br><span class="line">DEVICE=eno16777736 # 网卡设备名，设备名一定要跟文件名一致</span><br><span class="line">ONBOOT=yes # 该网卡是否随网络服务启动</span><br><span class="line">IPADDR=192.168.0.60 # 该网卡ip地址</span><br><span class="line">NETMASK=255.255.255.0 # 子网掩码</span><br><span class="line">GATEWAY=192.168.0.1 # 网关</span><br><span class="line">DNS1=8.8.8.8 # DNS，8.8.8.8为Google提供的免费DNS服务器的IP地址</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置网络工作</p>
+<p><code>/etc/sysconfig/network</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NETWORKING=yes # 网络是否工作，此处一定不能为no</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置公共DNS服务(可选)</p>
+<p><code>/etc/resolv.conf</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nameserver 8.8.8.8</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关闭防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">systemctl stop firewalld <span class="comment"># 临时关闭防火墙</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">systemctl <span class="built_in">disable</span> firewalld <span class="comment"># 禁止开机启动</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启网络服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">service network restart</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装JDK</p>
+<p>Linux rpm 命令用于管理套件</p>
+<p>查看是否已经安装JDK：<code>rpm -qa | grep -i java</code></p>
+<p>删除所有相关的java：<code>rpm -e --nodeps java-xxx</code></p>
+<p>gz压缩文件放到指定目录如    /usr/local    </p>
+<p>​    解压：<code>tar -zxvf jdk-8u181-linux-x64.tar.gz</code></p>
+<p>​    压缩文件内容:    <code>tar -czvf test.tar.gz a.c</code>    //压缩 a.c文件为test.tar.gz</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建一个名为 abc 的目录</span></span><br><span class="line">mkdir abc</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入 abc 这个目录</span></span><br><span class="line">cd abc</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建两个文件,文件名为1.txt 2.txt</span></span><br><span class="line">touch 1.txt 2.txt</span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换到 abc 的父目录</span></span><br><span class="line">cd ..</span><br><span class="line"><span class="meta">#</span><span class="bash"> 将文件 abc 进行压缩时，排除1.txt，压缩后的文件名为 abc.tgr</span></span><br><span class="line">tar --exclude=abc/1.txt -zcvf abc.tgz abc </span><br><span class="line"><span class="meta">#</span><span class="bash"> 解压文件</span></span><br><span class="line">tar -zxvf abc.tgz -C /usr 解压大 usr目录</span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除压缩文件</span></span><br><span class="line">rm abc.tgz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除解压后的文件，并删除文件夹</span></span><br><span class="line">rm -rf abc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置全局变量</p>
+<p>vim /etc/profile</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/local/jdk1.8.0_181</span><br><span class="line">CLASSPATH=$JAVA_HOME/lib/</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin</span><br><span class="line">export PATH JAVA_HOME CLASSPATH</span><br></pre></td></tr></table></figure>
+
+<p>reource /etc/profile</p>
+<p>java -version</p>
+</li>
+<li><p>用yum方式安装(无需配置环境变量)</p>
+<p>检索yum中有没有java1.8的包：<code>yum list java-1.8*</code></p>
+<p><code>yum install java-1.8.0-openjdk* -y</code></p>
+</li>
+</ul>
+<h3 id="二、常用命令"><a href="#二、常用命令" class="headerlink" title="二、常用命令"></a>二、常用命令</h3><p>Linux命令用法一般用man命令可以查看其帮助信息</p>
+<h4 id="目录切换命令"><a href="#目录切换命令" class="headerlink" title="目录切换命令"></a>目录切换命令</h4><ul>
+<li>到根目录    <code>cd /</code></li>
+<li>切换到用户主目录  <code>cd ~</code></li>
+<li>切换到上一个所在目录   <code>cd -</code></li>
+</ul>
+<h4 id="目录的操作命令（增删改查）"><a href="#目录的操作命令（增删改查）" class="headerlink" title="目录的操作命令（增删改查）"></a>目录的操作命令（增删改查）</h4><ul>
+<li>增加目录    <code>mkdir</code></li>
+<li>寻找目录（查）<code>find 目录 参数</code></li>
+<li>修改目录的名称（改/剪切）  <code>mv 目录名称 新目录名称</code></li>
+<li>拷贝目录（改），-r代表递归拷贝        <code>cp -r 目录名称 目录拷贝的目标位置</code></li>
+<li>删除目录（删） <code>rm  [-rf]</code>     <code>rm -r</code>   删除文件或者目录 <code>rm</code> 删除文件</li>
+<li><code>cp</code> </li>
+<li><code>mv</code>     移动文件或者重命名</li>
+</ul>
+<h4 id="文件的操作命令（增删改查）"><a href="#文件的操作命令（增删改查）" class="headerlink" title="文件的操作命令（增删改查）"></a>文件的操作命令（增删改查）</h4><ul>
+<li><p>文件的创建（增）      <code>touch 文件名称</code> </p>
+</li>
+<li><p>文件的查看（查）      <code>cat /more/less/tail 文件名称</code> </p>
+<ul>
+<li><p>查看文件的后10行，Ctrl+C结束      <code>tail  -10</code></p>
+</li>
+<li><p>可以使用键盘上的PgUp和PgDn向上 和向下翻页，q结束查看     <code>less</code></p>
+</li>
+<li><p>可以显示百分比，回车可以向下一行， 空格可以向下一页，q可以退出查看     <code>more</code></p>
+<p><code>tail -f</code> 文件 可以对某个文件进行动态监控    tail -f catalina-2016-11-11.log 监控 文 件的变化</p>
+</li>
+</ul>
+</li>
+<li><p>vim 文件名称， 创建或者打开文件</p>
+</li>
+</ul>
+<h4 id="压缩文件的操作命令"><a href="#压缩文件的操作命令" class="headerlink" title="压缩文件的操作命令"></a>压缩文件的操作命令</h4><p>打包并压缩文件         <code>tar -zcvf 打包压缩后的文件名 要打包压缩的文件</code></p>
+<p>解压压缩包                <code>tar [-xvf] 压缩文件</code></p>
+<h4 id="Linux的权限命令"><a href="#Linux的权限命令" class="headerlink" title="Linux的权限命令"></a>Linux的权限命令</h4><p><code>chmod u=rwx,g=rw,o=r aaa.txt</code></p>
+<p><code>chmod 761 aa.txt</code></p>
+<p><strong>补充一个比较常用的东西:</strong></p>
+<p>假如我们装了一个zookeeper，我们每次开机到要求其自动启动该怎么办？</p>
+<ol>
+<li><p>新建一个脚本zookeeper</p>
+</li>
+<li><p>为新建的脚本zookeeper添加可执行权限，命令是:chmod +x zookeeper</p>
+</li>
+<li><p>把zookeeper这个脚本添加到开机启动项里面，命令是：chkconfig –add zookeeper</p>
+</li>
+<li><p>如果想看看是否添加成功，命令是：chkconfig –list</p>
+</li>
+</ol>
+<h4 id="Linux-用户管理"><a href="#Linux-用户管理" class="headerlink" title="Linux 用户管理"></a>Linux 用户管理</h4><p>/etc/passwd</p>
+<p>useradd</p>
+<p>userdel</p>
+<p>usermod</p>
+<p>passwd    更改或创建用户的密码    -S 显示密码</p>
+<p>su -  用户名    切换登录用户</p>
+<h4 id="Linux系统用户组的管理"><a href="#Linux系统用户组的管理" class="headerlink" title="Linux系统用户组的管理"></a>Linux系统用户组的管理</h4><p>/etc/group</p>
+<p>groupmod</p>
+<h4 id="vim命令"><a href="#vim命令" class="headerlink" title="vim命令"></a>vim命令</h4><p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-vim.html">https://www.runoob.com/linux/linux-vim.html</a></p>
+<p><code>:set nu :set nonu</code> 显示行号，取消行号</p>
+<table>
+<thead>
+<tr>
+<th align="left">移动光标的方法</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">h 或 向左箭头键(←)</td>
+<td>光标向左移动一个字符</td>
+</tr>
+<tr>
+<td align="left">j 或 向下箭头键(↓)</td>
+<td>光标向下移动一个字符</td>
+</tr>
+<tr>
+<td align="left">k 或 向上箭头键(↑)</td>
+<td>光标向上移动一个字符</td>
+</tr>
+<tr>
+<td align="left">l 或 向右箭头键(→)</td>
+<td>光标向右移动一个字符</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">搜索替换</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">/word</td>
+<td>向光标之下寻找一个名称为 word 的字符串</td>
+</tr>
+<tr>
+<td align="left">n</td>
+<td>向下搜寻</td>
+</tr>
+<tr>
+<td align="left">N</td>
+<td>向上搜寻</td>
+</tr>
+<tr>
+<td align="left">:%s/word1/word2/gc</td>
+<td>替换字符，确认提示</td>
+</tr>
+<tr>
+<td align="left">%s/word1/word2/g</td>
+<td>替换字符，没有确认提示</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">删除、复制与贴上</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">x, X</td>
+<td>前删除，后删除字符</td>
+</tr>
+<tr>
+<td align="left">dd</td>
+<td>删除整行</td>
+</tr>
+<tr>
+<td align="left">yy</td>
+<td>复制行</td>
+</tr>
+<tr>
+<td align="left">p, P</td>
+<td>粘贴已复制数据</td>
+</tr>
+<tr>
+<td align="left">u</td>
+<td>复原前一个动作</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">搜索替换</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">/word</td>
+<td>向光标之下寻找一个名称为 word 的字符串</td>
+</tr>
+<tr>
+<td align="left">n</td>
+<td>向下搜寻</td>
+</tr>
+<tr>
+<td align="left">N</td>
+<td>向上搜寻</td>
+</tr>
+<tr>
+<td align="left">:%s/word1/word2/gc</td>
+<td>替换字符，确认提示</td>
+</tr>
+<tr>
+<td align="left">%s/word1/word2/g</td>
+<td>替换字符，没有确认提示</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">进入输入或取代的编辑模式</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">i, I</td>
+<td>进入输入模式    (Insert mode)</td>
+</tr>
+<tr>
+<td align="left">:w</td>
+<td>保存</td>
+</tr>
+<tr>
+<td align="left">:q</td>
+<td>离开 vi (常用)</td>
+</tr>
+<tr>
+<td align="left">:q!</td>
+<td>不保存离开</td>
+</tr>
+<tr>
+<td align="left">[Esc]</td>
+<td>退出编辑模式，回到一般模式中(常用)</td>
+</tr>
+<tr>
+<td align="left">:x</td>
+<td>写入文件并退出。仅当文件被修改时才写入，并更新文件修改时间，否则不会更新文件修改时间</td>
+</tr>
+</tbody></table>
+<h4 id="crontab-命令"><a href="#crontab-命令" class="headerlink" title="crontab 命令"></a>crontab 命令</h4><p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-comm-crontab.html">https://www.runoob.com/linux/linux-comm-crontab.html</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab [ -u user ] &#123; -l | -r | -e &#125;</span><br></pre></td></tr></table></figure>
+
+<p>-u user 是指设定指定 user 的时程表，如果不使用 -u user 的话，就是表示设定自己的时程表。</p>
+<p><code>58 23 * * * cd /root/bak;/root/bak/test_dy_dump.sh;</code></p>
+<p>每天23：58执行的sh脚本</p>
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li>-e : 执行编辑器来设定时程表</li>
+<li>-r : 删除目前的时程表</li>
+<li>-l : 列出目前的时程表</li>
+<li>service crond start  //启动服务</li>
+<li>service crond stop   //关闭服务</li>
+<li>service crond restart //重启服务</li>
+<li>service crond reload  //重新载入配置</li>
+<li>service crond status  //查看服务状态 </li>
+</ul>
+<h4 id="其他常用命令"><a href="#其他常用命令" class="headerlink" title="其他常用命令"></a>其他常用命令</h4><p>windows 到 linux字符集设置</p>
+<p>​      <code>:set ff 或 :set fileformat</code></p>
+<p>​     <code>:set ff=dos 或 :set ff=unix</code></p>
+<p> <code>grep 要搜索的字符串 要搜索的文件 --color</code>  搜索命令，–color代表高亮显示</p>
+<p> <code>ps -ef / ps aux</code>             这两个命令都是查看当前系统正在运行进程</p>
+<p><code>kill -9 进程的pid</code>             杀死进程（-9 表示强制终止。）</p>
+<p><code>ifconfig</code>                                查看当前系统的网卡信息</p>
+<p><code>ping</code>                                        查看与某台机器的连接情况</p>
+<p><code>netstat</code>                                    查看当前系统的端口</p>
+<p> <code>ln</code>                                             创建链接文件        创建软链接、硬链接-s</p>
+<p><code>top</code>                                            查看各进程cpu的使用率</p>
+<p><code>top -p pid -H</code>                            观察该进程中所有线程的CPU占用</p>
+<p><code>jstack (pid)|grep -A 10</code>         (十六进制)来查询出具体的线程状态</p>
+<ul>
+<li><p>mysql 备份</p>
+<p><code>mysqldump -u用户名 -p数据库名 &gt; 备份的文件名</code></p>
+<p><code>docker exec -i 镜像名称 mysqldump -uroot -proot 数据库名 &gt; 备份的文件名</code></p>
+<p><code>docker exec -i my_mysql_8 mysqldump -uroot -p123456 test_dy &gt; /mysqldatabak/test_dy1.bak</code></p>
+</li>
+<li><p>mysql恢复</p>
+<p><code>mysql -u用户名 -p[密码] &lt; 备份的文件名</code></p>
+<p><code>docker exec -i 镜像名称 mysql -uroot -proot 数据库名 &lt; 备份的文件名</code></p>
+</li>
+</ul>
+<p>  docker exec -i my_mysql_8  mysql -uroot -p123456 test_dy &lt; test_dy_20201116102946.bak</p>
+<p>  ​                    </p>
+<p>java -jar xxx.jar        启动jar包程序        <code>nohup java -Xms512m -Xmx512m -jar xxx.jar &amp;</code>     后台启动</p>
+<p><code>mvn clean package</code>     maven 打包</p>
+<h3 id="三、shell脚本"><a href="#三、shell脚本" class="headerlink" title="三、shell脚本"></a>三、shell脚本</h3>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Oyiersan
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.oyiersan.com/2020/11/21/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="linux 常用命令">https://blog.oyiersan.com/2020/11/21/linux常用命令/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/shell/" rel="tag"># shell</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/24/spring/" rel="prev" title="spring">
+                  <i class="fa fa-chevron-left"></i> spring
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Oyiersan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+      
+
+
+
+
+
+
+
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

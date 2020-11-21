@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/117350/4/15721/10670/5f40da35E5c5f1f1c/19930f178e02c96d.png">
 <meta property="og:image" content="https://ddcdn.jd.com/ddimg/jfs/t1/128226/12/10343/36873/5f40d933E923f09f0/862019e91b0fb8eb.png">
 <meta property="article:published_time" content="2020-08-21T11:16:14.000Z">
-<meta property="article:modified_time" content="2020-08-24T10:00:05.301Z">
+<meta property="article:modified_time" content="2020-09-13T02:46:44.544Z">
 <meta property="article:author" content="Oyiersan">
 <meta property="article:tag" content="腾讯图灵JAVA视频笔记整理">
 <meta property="article:tag" content="IO">
@@ -206,20 +206,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -318,7 +318,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-24 18:00:05" itemprop="dateModified" datetime="2020-08-24T18:00:05+08:00">2020-08-24</time>
+                <time title="修改时间：2020-09-13 10:46:44" itemprop="dateModified" datetime="2020-09-13T10:46:44+08:00">2020-09-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -343,7 +343,7 @@
 <a id="more"></a>
 
 <h3 id="一、IO模型"><a href="#一、IO模型" class="headerlink" title="一、IO模型"></a>一、<strong>IO模型</strong></h3><p>IO模型就是说用什么样的通道进行数据的发送和接收，Java共支持3种网络编程IO模式：<strong>BIO，NIO，AIO</strong></p>
-<h4 id="BIO-Blocking-IO"><a href="#BIO-Blocking-IO" class="headerlink" title="BIO(Blocking IO)"></a><strong>BIO(Blocking IO)</strong></h4><p>同步阻塞模型，一个客户端连接对应一个处理线程</p>
+<h4 id="BIO-Blocking-IO"><a href="#BIO-Blocking-IO" class="headerlink" title="BIO(Blocking IO)"></a><strong>BIO(Blocking IO)</strong></h4><p>同步阻塞模型，一<strong>个客户端连接对应一个处理线程</strong>，会在服务端创建多个线程与之对应</p>
 <p><strong>缺点：</strong></p>
 <ol>
 <li>IO代码里read操作是阻塞操作，如果连接不做数据读写操作会导致线程阻塞，浪费资源（心跳连接，中断断开连接）</li>
@@ -353,7 +353,7 @@
 <p>BIO 方式适用于连接数目比较小且固定的架构， 这种方式对服务器资源要求比较高，  但程序简单易理解。</p>
 <img src="https://ddcdn.jd.com/ddimg/jfs/t1/138684/27/6080/51428/5f407fdcEde2aef34/6b60e0d28714ea55.png" alt="clipboard.png" style="zoom:80%;" />
 
-<h4 id="NIO-Non-Blocking-IO"><a href="#NIO-Non-Blocking-IO" class="headerlink" title="NIO(Non Blocking IO)"></a><strong>NIO(Non Blocking IO)</strong></h4><p>同步非阻塞，服务器实现模式为一个线程可以处理多个请求(连接)，客户端发送的连接请求都会注册到<strong>多路复用器selector</strong>上，多路复用器轮询到连接有IO请求就进行处理。</p>
+<h4 id="NIO-Non-Blocking-IO"><a href="#NIO-Non-Blocking-IO" class="headerlink" title="NIO(Non Blocking IO)"></a><strong>NIO(Non Blocking IO)</strong></h4><p>同步非阻塞，服务器实现模式为<strong>一个线程可以处理多个请求</strong>(连接)，客户端发送的连接请求都会注册到<strong>多路复用器selector</strong>上，多路复用器轮询到连接有IO请求就进行处理。</p>
 <p><strong>应用场景：</strong></p>
 <p> NIO方式适用于连接数目多且连接比较短（轻操作） 的架构， 比如聊天服务器， 弹幕系统， 服务器间通讯，编程比较复杂</p>
 <img src="https://ddcdn.jd.com/ddimg/jfs/t1/118122/1/15529/69926/5f40808aEaa6c9da9/62998306087603a1.png" alt="clipboard.png" style="zoom:80%;" />
@@ -436,7 +436,7 @@
 <p><code>FULL GC 会同时回收掉直接内存和堆内存</code></p>
 </li>
 </ul>
-<h3 id="WebScoket"><a href="#WebScoket" class="headerlink" title="WebScoket"></a>WebScoket</h3><p>webSocket 是html5 开始提供的一种浏览器与服务器间进行全双工二进制通信协议，其基于TCP双向全双工作进行消息传递，同一时刻即可以发又可以接收消息，相比Http的半双工协议性能有很大的提升</p>
+<h3 id="WebScoket"><a href="#WebScoket" class="headerlink" title="WebScoket"></a>WebScoket</h3><p>webSocket 是html5 开始提供的一种浏览器与服务器间进行<strong>全双工</strong>二进制通信协议，其基于TCP双向全双工作进行消息传递，同一时刻即可以发又可以接收消息，相比Http的<strong>半双工协议</strong>性能有很大的提升</p>
 <h4 id="webSocket特点"><a href="#webSocket特点" class="headerlink" title="webSocket特点"></a>webSocket特点</h4><ol>
 <li>单一TCP长连接，采用全双工通信模式</li>
 <li>对代理、防火墙透明</li>
