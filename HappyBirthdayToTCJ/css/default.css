@@ -14,8 +14,9 @@ body {
 #contentDiv {
     width: 990px;
     height: 625px;
-    margin-top: 20px;
-    margin-left: 264.5px;
+    /*margin-top: 20px;*/
+    margin: auto;
+    /*margin-left: 200px;*/
 }
 
 #loveHeart {
